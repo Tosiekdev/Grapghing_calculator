@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-set(SFML_INCLUDE_DIR "/home/tosiek/Documents/SFML-2.5.1/include")
-set(SFML_LIBRARY_DIR "/home/tosiek/Documents/SFML-2.5.1/lib")
-set(SFML_DIR "/home/tosiek/Documents/SFML-2.5.1/lib/cmake/SFML")
+set(SFML_INCLUDE_DIR "../SFML-2.5.1/include")
+set(SFML_LIBRARY_DIR "../SFML-2.5.1/lib")
+set(SFML_DIR "../SFML-2.5.1/lib/cmake/SFML")
 
 link_directories(SFML_LIBRARY_DIR)
 include_directories(SFML_INCLUDE_DIR)
