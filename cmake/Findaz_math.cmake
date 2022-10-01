@@ -1,4 +1,4 @@
-set(FIND_AZ_MATH_PATHS /home/tosiek/Documents/II_semestr/PP2/az_math_library)
+set(FIND_AZ_MATH_PATHS /path/to/az_math_library)
 
 find_path(AZ_MATH_INCLUDE_DIR azmath.h
         PATH_SUFFIXES include
