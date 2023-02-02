@@ -2,6 +2,9 @@
 // Created by tosiek on 14.06.22.
 //
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 #include "calculator.h"
 
 Calculator::Calculator(){
@@ -78,8 +81,9 @@ Calculator::Calculator(){
     f_calculated_.setPosition(sf::Vector2f(1300, 575));
 }
 
-void Calculator::handle_events(sf::RenderWindow &window, Scene &scene){
+void Calculator::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) {
     while(window.pollEvent(e_)){
+        ImGui::SFML::ProcessEvent(window, e_);
         switch (e_.type){
             case sf::Event::KeyPressed:
                 if(e_.key.code == sf::Keyboard::Escape) { scene=MENU; }
@@ -207,7 +211,8 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene){
     }
 }
 
-void Calculator::do_stuff(sf::RenderWindow &window){
+void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
+    ImGui::SFML::Update(window, deltaClock.restart());
     auto mouse=sf::Mouse::getPosition();
     is_focused=returning_.is_focused(mouse,cursor_,window);
     if(!is_focused) { is_focused=x1_.is_focused(mouse,cursor_,window); }
@@ -223,6 +228,10 @@ void Calculator::do_stuff(sf::RenderWindow &window){
         cursor_.loadFromSystem(sf::Cursor::Arrow);
         window.setMouseCursor(cursor_);
     }
+
+    ImGui::Begin("Hello, world!");
+    ImGui::Button("Look at this pretty button");
+    ImGui::End();
 }
 
 void Calculator::display(sf::RenderWindow &window){
@@ -263,6 +272,8 @@ void Calculator::display(sf::RenderWindow &window){
     window.draw(f_.getText());
     window.draw(selected_.getText());
     window.draw(calc_for_.getText());
+
+    ImGui::SFML::Render(window);
 
     window.display();
 }

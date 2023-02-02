@@ -38,7 +38,7 @@ Manual::Manual(){
     caption_.setPosition(sf::Vector2f(960, 580));
 }
 
-void Manual::handle_events(sf::RenderWindow &window, Scene &scene){
+void Manual::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) {
     while(window.pollEvent(e_)){
         switch(e_.type){
             case sf::Event::KeyPressed:
@@ -56,7 +56,7 @@ void Manual::handle_events(sf::RenderWindow &window, Scene &scene){
     }
 }
 
-void Manual::do_stuff(sf::RenderWindow &window){
+void Manual::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
     if(!returning_.is_focused(sf::Mouse::getPosition(),cursor_,window)){
         cursor_.loadFromSystem(sf::Cursor::Arrow);
         window.setMouseCursor(cursor_);

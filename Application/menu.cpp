@@ -24,7 +24,7 @@ Menu::Menu(){
     exit_.create_button(sf::Vector2f(810, 680), sf::Vector2f(0.6f, 0.5f), "Exit");
 }
 
-void Menu::handle_events(sf::RenderWindow &window, Scene& scene){
+void Menu::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) {
     while(window.pollEvent(e_)){
         switch (e_.type){
             case sf::Event::KeyPressed:
@@ -41,7 +41,7 @@ void Menu::handle_events(sf::RenderWindow &window, Scene& scene){
     }
 }
 
-void Menu::do_stuff(sf::RenderWindow &window){
+void Menu::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
     is_focused=calculator_.is_focused(sf::Mouse::getPosition(window),cursor_,window);
     if(!is_focused){
         is_focused=manual_.is_focused(sf::Mouse::getPosition(window),cursor_,window);
