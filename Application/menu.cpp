@@ -57,20 +57,27 @@ void Menu::display(sf::RenderWindow &window){
 }
 
 void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
+    //Getting window's size for scaling
     auto size = window.getSize();
     auto x = static_cast<float>(size.x);
     auto y = static_cast<float>(size.y);
-    ImVec2 buttonSize = ImVec2(x/10.f,y/20.f);
+
+    ImVec2 buttonSize = ImVec2(x/5.f,y/12.f);
+
     ImGui::SFML::Update(window, deltaClock.restart());
-    ImGui::SetNextWindowPos(ImVec2(0,0));
-    ImGui::SetNextWindowSizeConstraints(ImVec2(500,500), ImVec2(500,500));
+
+    ImGui::SetNextWindowPos(ImVec2(2.f*x/5.f,7.f*y/24.f));
+    ImGui::SetNextWindowSize(ImVec2(x/5.f,y/2.4f));
     ImGui::Begin("a", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
+
     if ( ImGui::Button("Calculator", buttonSize) ) {
         scene = CALCULATOR;
     }
+    ImGui::Text("");
     if ( ImGui::Button("Manual", buttonSize) ) {
         scene = INSTRUCTION;
     }
+    ImGui::Text("");
     if ( ImGui::Button("Exit", buttonSize) ) {
         window.close();
     }
