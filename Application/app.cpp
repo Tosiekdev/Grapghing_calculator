@@ -15,6 +15,9 @@ App::App(){
 void App::start(){
     sf::Clock deltaClock;
     ImGui::SFML::Init(window_);
+    ImGuiIO &io = ImGui::GetIO();
+    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 32.f);
+    ImGui::SFML::UpdateFontTexture();
     while(window_.isOpen()){
         switch (current_){
             case MENU:

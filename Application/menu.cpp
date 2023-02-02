@@ -41,7 +41,7 @@ void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
 void Menu::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
     menuOptions(window, deltaClock, scene);
 
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 }
 
 void Menu::display(sf::RenderWindow &window){
@@ -79,6 +79,7 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &sc
     //Color theme
     ImGui::StyleColorsLight();
 
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
     if ( ImGui::Button("Calculator", buttonSize) ) {
         scene = CALCULATOR;
     }
@@ -90,6 +91,7 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &sc
     if ( ImGui::Button("Exit", buttonSize) ) {
         window.close();
     }
+    ImGui::PopFont();
     ImGui::End();
     ImGui::PopStyleVar();
 }
