@@ -3,6 +3,7 @@
 //
 
 #include "app.h"
+#include "imgui.h"
 #include "imgui-SFML.h"
 
 App::App(){

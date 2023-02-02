@@ -66,9 +66,18 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &sc
 
     ImGui::SFML::Update(window, deltaClock.restart());
 
+    // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(2.f*x/5.f,7.f*y/24.f));
-    ImGui::SetNextWindowSize(ImVec2(x/5.f,y/2.4f));
-    ImGui::Begin("a", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground);
+    ImGui::SetNextWindowSize(ImVec2(x/4.f,y/2.4f));
+
+    //Rounded edges
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+    ImGui::Begin("a", nullptr, flags);
+
+    //Color theme
+    ImGui::StyleColorsLight();
 
     if ( ImGui::Button("Calculator", buttonSize) ) {
         scene = CALCULATOR;
@@ -82,4 +91,5 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &sc
         window.close();
     }
     ImGui::End();
+    ImGui::PopStyleVar();
 }
