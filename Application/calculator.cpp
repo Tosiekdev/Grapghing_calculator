@@ -228,10 +228,6 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
         cursor_.loadFromSystem(sf::Cursor::Arrow);
         window.setMouseCursor(cursor_);
     }
-
-    ImGui::Begin("Hello, world!");
-    ImGui::Button("Look at this pretty button");
-    ImGui::End();
 }
 
 void Calculator::display(sf::RenderWindow &window){
