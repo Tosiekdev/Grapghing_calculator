@@ -34,6 +34,8 @@ void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
             case sf::Event::KeyPressed:
                 if(e_.key.code == sf::Keyboard::Escape) { window.close(); }
                 break;
+            default:
+                ;
         }
     }
 }
