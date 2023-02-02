@@ -17,18 +17,18 @@ void App::start(){
     while(window_.isOpen()){
         switch (current_){
             case MENU:
-                menu_.handle_events(window_, current_, deltaClock);
-                menu_.do_stuff(window_, sf::Clock());
+                menu_.handle_events(window_, current_);
+                menu_.do_stuff(window_, deltaClock, current_);
                 menu_.display(window_);
                 break;
             case CALCULATOR:
-                calculator_.handle_events(window_, current_, deltaClock);
-                calculator_.do_stuff(window_, deltaClock);
+                calculator_.handle_events(window_, current_);
+                calculator_.do_stuff(window_, deltaClock, current_);
                 calculator_.display(window_);
                 break;
             case INSTRUCTION:
-                manual_.handle_events(window_, current_, deltaClock);
-                manual_.do_stuff(window_, deltaClock);
+                manual_.handle_events(window_, current_);
+                manual_.do_stuff(window_, deltaClock, current_);
                 manual_.display(window_);
                 break;
         }

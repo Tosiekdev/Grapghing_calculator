@@ -55,13 +55,13 @@ public:
      * Virtual function to handling events.
      * @param window Window from events are handled.
      */
-    virtual void handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) =0;
+    virtual void handle_events(sf::RenderWindow &window, Scene &scene) =0;
 
     /**
      * Virtual function to make some operations between frames.
      * @param window Window, maybe it will be needed.
      */
-    virtual void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) =0;
+    virtual void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) =0;
 
     /**
      * Virtual function to display window content.

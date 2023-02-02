@@ -81,7 +81,7 @@ Calculator::Calculator(){
     f_calculated_.setPosition(sf::Vector2f(1300, 575));
 }
 
-void Calculator::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) {
+void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
     while(window.pollEvent(e_)){
         ImGui::SFML::ProcessEvent(window, e_);
         switch (e_.type){
@@ -211,7 +211,7 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock
     }
 }
 
-void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
+void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
     ImGui::SFML::Update(window, deltaClock.restart());
     auto mouse=sf::Mouse::getPosition();
     is_focused=returning_.is_focused(mouse,cursor_,window);

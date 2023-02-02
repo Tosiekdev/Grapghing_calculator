@@ -115,14 +115,16 @@ public:
     /**
      * Function to handle events in calculator.
      * @param window Window from which events will be handled.
+     * @param scene Application scenes.
      */
-    void handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) override;
+    void handle_events(sf::RenderWindow &window, Scene &scene) override;
 
     /**
      * Function to do some necessary things between frames.
      * @param window Window, maybe will be used.
+     * @param deltaClock Needed for proper rendering of ImGui contents.
      */
-    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) override;
+    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) override;
 
     /**
      * Function to display buttons etc.

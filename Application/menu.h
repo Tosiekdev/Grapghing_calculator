@@ -26,6 +26,11 @@ class Menu : public Window{
      */
     Button exit_;
 
+    /**
+     * Sets and display beautiful control menu buttons.
+     */
+    void menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene);
+
 public:
     /**
      * Constructor.
@@ -36,13 +41,13 @@ public:
      * Function to handle events in menu.
      * @param window Window from which events will be handled.
      */
-    void handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) override;
+    void handle_events(sf::RenderWindow &window, Scene &scene) override;
 
     /**
      * Function to do some necessary things between frames.
      * @param window Window, maybe will be used.
      */
-    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) override;
+    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) override;
 
      /**
       * Function to display buttons etc.
