@@ -3,8 +3,6 @@
 //
 
 #include "app.h"
-#include "imgui.h"
-#include "imgui-SFML.h"
 
 App::App(){
     current_ = MENU;
@@ -17,6 +15,7 @@ void App::start(){
     ImGui::SFML::Init(window_);
     ImGuiIO &io = ImGui::GetIO();
     io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 32.f);
+    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 64.f);
     ImGui::SFML::UpdateFontTexture();
     while(window_.isOpen()){
         switch (current_){

@@ -2,22 +2,10 @@
 // Created by tosiek on 11.06.22.
 //
 
-#include "imgui.h"
-#include "imgui-SFML.h"
-
 #include "menu.h"
 
 Menu::Menu(){
     is_focused=false;
-
-    header_.loadFromFile("Textures/header.png");
-    header_.setPosition(sf::Vector2f(0, 0));
-
-    title_.loadFromFile("Fonts/KdamThmorPro-Regular.ttf");
-    title_.setFillColor(sf::Color::Black);
-    title_.setString("AZ-math");
-    title_.setCharacterSize(64);
-    title_.setPosition(sf::Vector2f(960, 40));
 }
 
 void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
@@ -36,15 +24,13 @@ void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
 void Menu::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
     ImGui::SFML::Update(window, deltaClock.restart());
     menuOptions(window, deltaClock, scene);
+    title(window, scene);
 
-    //ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 }
 
 void Menu::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
-
-    window.draw(header_.getSprite());
-    window.draw(title_.getText());
 
     ImGui::SFML::Render(window);
 
@@ -67,7 +53,7 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &s
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
     int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
-    ImGui::Begin("a", nullptr, flags);
+    ImGui::Begin("menuOptions", nullptr, flags);
 
     //Color theme
     ImGui::StyleColorsLight();

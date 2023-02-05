@@ -8,6 +8,8 @@
 #include "UI/button.h"
 #include "UI/object.h"
 
+#include "useful_functions.h"
+
 #include "imgui.h"
 #include "imgui-SFML.h"
 
@@ -48,6 +50,21 @@ protected:
      */
     Caption title_;
 
+    /**
+     * Displays button which takes user back to the menu.
+     * @param window Display target.
+     * @param deltaClock For updating ImGui.
+     * @param scene Application scene.
+     */
+    static void returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
+
+    /**
+     * Displays application title.
+     * @param window Display target.
+     * @param scene Application scene.
+     */
+    static void title(sf::RenderWindow &window, Scene &scene);
+
 public:
     /**
      * Virtual function to handling events.
@@ -66,11 +83,6 @@ public:
      * @param window Window where content will be displayed.
      */
      virtual void display(sf::RenderWindow& window)=0;
-
-    /*
-    * Displays button which takes user back to the menu.
-    */
-    static void returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
 };
 
 

@@ -2,9 +2,6 @@
 // Created by tosiek on 14.06.22.
 //
 
-#include "imgui.h"
-#include "imgui-SFML.h"
-
 #include "calculator.h"
 
 Calculator::Calculator(){
