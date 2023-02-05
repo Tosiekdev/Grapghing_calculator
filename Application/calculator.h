@@ -131,6 +131,11 @@ public:
      * @param window Window where content will be displayed.
      */
     void display(sf::RenderWindow& window) override;
+
+    /*
+     * Displays button which takes user back to the menu.
+     */
+    void returningButton(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene);
 };
 
 

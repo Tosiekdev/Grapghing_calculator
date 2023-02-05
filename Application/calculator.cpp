@@ -22,8 +22,6 @@ Calculator::Calculator(){
     title_.setCharacterSize(64);
     title_.setPosition(sf::Vector2f(960, 40));
 
-    returning_.create_button(sf::Vector2f(10,10),sf::Vector2f(0.3f,0.4f),"Return");
-
     x1_.create_button(sf::Vector2f(1010,85),sf::Vector2f(0.2f,0.3f),"1x");
     x10_.create_button(sf::Vector2f(1010,135),sf::Vector2f(0.2f,0.3f),"10x");
     x100_.create_button(sf::Vector2f(1010,185),sf::Vector2f(0.2f,0.3f),"100x");
@@ -212,9 +210,7 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
 }
 
 void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
-    ImGui::SFML::Update(window, deltaClock.restart());
     auto mouse=sf::Mouse::getPosition();
-    is_focused=returning_.is_focused(mouse,cursor_,window);
     if(!is_focused) { is_focused=x1_.is_focused(mouse,cursor_,window); }
     if(!is_focused) { is_focused=x10_.is_focused(mouse,cursor_,window); }
     if(!is_focused) { is_focused=x100_.is_focused(mouse,cursor_,window); }
@@ -223,6 +219,8 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene 
     if(!is_focused) { is_focused=textbox_.mouse_above(mouse,cursor_,window); }
     if(!is_focused) { is_focused=select_func_.mouse_above(mouse,cursor_,window); }
     if(!is_focused) { is_focused=argument_.mouse_above(mouse,cursor_,window); }
+
+    returningButton(window, deltaClock, scene);
 
     if(!is_focused){
         cursor_.loadFromSystem(sf::Cursor::Arrow);
@@ -239,9 +237,6 @@ void Calculator::display(sf::RenderWindow &window){
 
     window.draw(header_.getSprite());
     window.draw(title_.getText());
-
-    window.draw(returning_.getSprite());
-    window.draw(returning_.getCaption());
 
     window.draw(remove_func_.getSprite());
     window.draw(remove_func_.getCaption());
@@ -278,4 +273,36 @@ void Calculator::not_focused(){
     select_func_.focus(false);
     textbox_.focus(false);
     argument_.focus(false);
+}
+
+void Calculator::returningButton(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
+    //Getting window's size for scaling
+    auto size = window.getSize();
+    auto x = static_cast<float>(size.x);
+    auto y = static_cast<float>(size.y);
+
+    ImVec2 buttonSize = ImVec2(x/12.f,y/18.f);
+
+    ImGui::SFML::Update(window, deltaClock.restart());
+
+    // Proper positioning
+    ImGui::SetNextWindowPos(ImVec2(0,0));
+    ImGui::SetNextWindowSize(ImVec2(x/4.f,y/2.4f));
+
+    //Rounded edges
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+    ImGui::Begin("a", nullptr, flags);
+
+    //Color theme
+    ImGui::StyleColorsLight();
+
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+    if ( ImGui::Button("Return", buttonSize) ) {
+        scene = MENU;
+    }
+    ImGui::PopFont();
+    ImGui::End();
+    ImGui::PopStyleVar();
 }
