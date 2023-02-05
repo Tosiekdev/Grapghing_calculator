@@ -40,6 +40,7 @@ Manual::Manual(){
 
 void Manual::handle_events(sf::RenderWindow &window, Scene &scene) {
     while(window.pollEvent(e_)){
+        ImGui::SFML::ProcessEvent(window, e_);
         switch(e_.type){
             case sf::Event::KeyPressed:
                 if(e_.key.code == sf::Keyboard::Escape) { scene=MENU; }
@@ -47,20 +48,13 @@ void Manual::handle_events(sf::RenderWindow &window, Scene &scene) {
             default:
                 ;
         }
-
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            auto mouse = sf::Mouse::getPosition(window);
-
-            if(returning_.is_focused(mouse,cursor_,window)) { scene=MENU; }
-        }
     }
 }
 
-void Manual::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
-    if(!returning_.is_focused(sf::Mouse::getPosition(),cursor_,window)){
-        cursor_.loadFromSystem(sf::Cursor::Arrow);
-        window.setMouseCursor(cursor_);
-    }
+void Manual::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+    ImGui::SFML::Update(window, deltaClock.restart());
+
+    returningButton(window, deltaClock, scene);
 }
 
 void Manual::display(sf::RenderWindow &window){
@@ -70,10 +64,9 @@ void Manual::display(sf::RenderWindow &window){
     window.draw(header_.getSprite());
     window.draw(title_.getText());
 
-    window.draw(returning_.getSprite());
-    window.draw(returning_.getCaption());
-
     window.draw(caption_.getText());
+
+    ImGui::SFML::Render(window);
 
     window.display();
 }

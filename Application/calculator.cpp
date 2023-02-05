@@ -209,7 +209,8 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
     }
 }
 
-void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
+void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+    ImGui::SFML::Update(window, deltaClock.restart());
     auto mouse=sf::Mouse::getPosition();
     if(!is_focused) { is_focused=x1_.is_focused(mouse,cursor_,window); }
     if(!is_focused) { is_focused=x10_.is_focused(mouse,cursor_,window); }
@@ -273,36 +274,4 @@ void Calculator::not_focused(){
     select_func_.focus(false);
     textbox_.focus(false);
     argument_.focus(false);
-}
-
-void Calculator::returningButton(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
-    //Getting window's size for scaling
-    auto size = window.getSize();
-    auto x = static_cast<float>(size.x);
-    auto y = static_cast<float>(size.y);
-
-    ImVec2 buttonSize = ImVec2(x/12.f,y/18.f);
-
-    ImGui::SFML::Update(window, deltaClock.restart());
-
-    // Proper positioning
-    ImGui::SetNextWindowPos(ImVec2(0,0));
-    ImGui::SetNextWindowSize(ImVec2(x/4.f,y/2.4f));
-
-    //Rounded edges
-    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-
-    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
-    ImGui::Begin("a", nullptr, flags);
-
-    //Color theme
-    ImGui::StyleColorsLight();
-
-    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
-    if ( ImGui::Button("Return", buttonSize) ) {
-        scene = MENU;
-    }
-    ImGui::PopFont();
-    ImGui::End();
-    ImGui::PopStyleVar();
 }

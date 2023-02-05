@@ -124,18 +124,13 @@ public:
      * @param window Window, maybe will be used.
      * @param deltaClock Needed for proper rendering of ImGui contents.
      */
-    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) override;
+    void do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) override;
 
     /**
      * Function to display buttons etc.
      * @param window Window where content will be displayed.
      */
     void display(sf::RenderWindow& window) override;
-
-    /*
-     * Displays button which takes user back to the menu.
-     */
-    void returningButton(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene);
 };
 
 

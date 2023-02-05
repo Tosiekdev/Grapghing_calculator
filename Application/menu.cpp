@@ -40,7 +40,8 @@ void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
     }
 }
 
-void Menu::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
+void Menu::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+    ImGui::SFML::Update(window, deltaClock.restart());
     menuOptions(window, deltaClock, scene);
 
     //ImGui::ShowDemoWindow();
@@ -58,15 +59,13 @@ void Menu::display(sf::RenderWindow &window){
     window.display();
 }
 
-void Menu::menuOptions(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) {
+void Menu::menuOptions(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
     //Getting window's size for scaling
     auto size = window.getSize();
     auto x = static_cast<float>(size.x);
     auto y = static_cast<float>(size.y);
 
     ImVec2 buttonSize = ImVec2(x/5.f,y/12.f);
-
-    ImGui::SFML::Update(window, deltaClock.restart());
 
     // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(2.f*x/5.f,7.f*y/24.f));

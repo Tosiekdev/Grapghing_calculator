@@ -8,6 +8,9 @@
 #include "UI/button.h"
 #include "UI/object.h"
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 enum Scene{MENU, CALCULATOR, INSTRUCTION};
 
 /**
@@ -61,13 +64,18 @@ public:
      * Virtual function to make some operations between frames.
      * @param window Window, maybe it will be needed.
      */
-    virtual void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) =0;
+    virtual void do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) =0;
 
     /**
      * Virtual function to display window content.
      * @param window Window where content will be displayed.
      */
      virtual void display(sf::RenderWindow& window)=0;
+
+    /*
+    * Displays button which takes user back to the menu.
+    */
+    static void returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
 };
 
 

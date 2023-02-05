@@ -30,7 +30,7 @@ public:
      * Function to do some necessary things between frames.
      * @param window Window, maybe will be used.
      */
-    void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock, Scene &scene) override;
+    void do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) override;
 
     /**
      * Function to display buttons etc.
