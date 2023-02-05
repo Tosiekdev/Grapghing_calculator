@@ -5,7 +5,6 @@
 #include "manual.h"
 
 Manual::Manual(){
-    background_.loadFromFile("Textures/back.jpg");
     header_.loadFromFile("Textures/header.png");
 
     title_.loadFromFile("Fonts/KdamThmorPro-Regular.ttf");
@@ -60,7 +59,6 @@ void Manual::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &sc
 void Manual::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
 
-    window.draw(background_.getSprite());
     window.draw(header_.getSprite());
     window.draw(title_.getText());
 

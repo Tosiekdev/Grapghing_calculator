@@ -10,9 +10,6 @@
 Calculator::Calculator(){
     is_focused=false;
 
-    background_.loadFromFile("Textures/back.jpg");
-    background_.setPosition(sf::Vector2f(0, 0));
-
     header_.loadFromFile("Textures/header.png");
     header_.setPosition(sf::Vector2f(0, 0));
 
@@ -231,8 +228,6 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
 
 void Calculator::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
-
-    window.draw(background_.getSprite());
 
     graph.draw(window);
 

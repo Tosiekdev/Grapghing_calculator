@@ -48,11 +48,6 @@ protected:
      */
     Caption title_;
 
-    /**
-     * Background of scene.
-     */
-    Object background_;
-
 public:
     /**
      * Virtual function to handling events.
