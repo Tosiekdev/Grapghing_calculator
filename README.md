@@ -1,5 +1,5 @@
 # Grapghing_calculator
-![C++](https://img.shields.io/badge/C++-Solutions-blue.svg?style=flat&logo=c%2B%2B)
+![C++](https://img.shields.io/badge/C++-Solutions-blue.svg?style=flat&logo=c%2B%2B) <br />
 Graphing calculator propably
 
 ## Instalation
