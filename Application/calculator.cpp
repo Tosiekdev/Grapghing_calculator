@@ -207,7 +207,9 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
 
 
     title(window, scene);
-    returningButton(window, deltaClock, scene);
+    returning_button(window, deltaClock, scene);
+    function_input(window, scene);
+    _tools.show(window, scene);
 
     if(!is_focused){
         cursor_.loadFromSystem(sf::Cursor::Arrow);
@@ -255,4 +257,33 @@ void Calculator::not_focused(){
     select_func_.focus(false);
     textbox_.focus(false);
     argument_.focus(false);
+}
+
+void Calculator::function_input(sf::RenderWindow &window, Scene &scene) {
+    char row[20];
+    //Getting window's size for scaling
+    auto size = window.getSize();
+    auto x = static_cast<float>(size.x);
+    auto y = static_cast<float>(size.y);
+
+    ImVec2 buttonSize = ImVec2(x/12.f,y/18.f);
+
+    // Proper positioning
+    ImGui::SetNextWindowPos(ImVec2(x/1.5f,100));
+    ImGui::SetNextWindowSize(ImVec2(x/10.f,y/10.f));
+
+    //Rounded edges
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+    ImGui::Begin("Function input", nullptr, flags);
+
+    //Color theme
+    ImGui::StyleColorsLight();
+
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+    ImGui::InputText("Function", row,20);
+    ImGui::PopFont();
+    ImGui::End();
+    ImGui::PopStyleVar();
 }

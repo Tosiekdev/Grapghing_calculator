@@ -47,7 +47,7 @@ protected:
      * @param deltaClock For updating ImGui.
      * @param scene Application scene.
      */
-    static void returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
+    static void returning_button(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
 
     /**
      * Displays application title.

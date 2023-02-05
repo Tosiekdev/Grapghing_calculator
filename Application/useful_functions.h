@@ -8,6 +8,6 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
-void textCentered(const std::string& text);
+void text_centered(const std::string& text);
 
 #endif //GRAPHING_CALCULATOR_USEFUL_FUNCTIONS_H

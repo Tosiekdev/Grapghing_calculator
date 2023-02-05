@@ -4,7 +4,7 @@
 
 #include "window.h"
 
-void Window::returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+void Window::returning_button(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
     //Getting window's size for scaling
     auto size = window.getSize();
     auto x = static_cast<float>(size.x);
@@ -35,12 +35,10 @@ void Window::returningButton(sf::RenderWindow &window, sf::Clock &deltaClock, Sc
 }
 
 void Window::title(sf::RenderWindow &window, Scene &scene) {
-//Getting window's size for scaling
+    //Getting window's size for scaling
     auto size = window.getSize();
     auto x = static_cast<float>(size.x);
     auto y = static_cast<float>(size.y);
-
-    ImVec2 buttonSize = ImVec2(x/12.f,y/18.f);
 
     // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(0,0));
@@ -50,13 +48,13 @@ void Window::title(sf::RenderWindow &window, Scene &scene) {
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
     //Color theme
-    ImGui::StyleColorsDark();
+    ImGui::StyleColorsClassic();
 
     int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
     ImGui::Begin("Title bar", nullptr, flags);
 
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[2]);
-    textCentered("AZ Graphing Calculator");
+    text_centered("AZ Graphing Calculator");
     ImGui::PopFont();
     ImGui::End();
     ImGui::PopStyleVar();

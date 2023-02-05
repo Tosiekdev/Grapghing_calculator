@@ -11,6 +11,7 @@
 #include "UI/caption.h"
 #include "UI/button.h"
 #include "UI/textbox.h"
+#include "function_tools.h"
 
 /**
  * Class to handle graphic calculator.
@@ -102,9 +103,21 @@ class Calculator : public Window{
      std::array<Caption, 7> func_caps_;
 
      /**
+      * Shows function tools.
+      */
+     FunctionTools _tools;
+
+     /**
       * Set all textbox to not focused.
       */
      void not_focused();
+
+     /**
+      * Shows input text for function formula.
+      * @param window Application window.
+      * @param scene Application scenes.
+      */
+     static void function_input(sf::RenderWindow &window, Scene &scene);
 
 public:
     /**

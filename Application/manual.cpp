@@ -46,7 +46,7 @@ void Manual::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &sc
     ImGui::SFML::Update(window, deltaClock.restart());
 
     title(window, scene);
-    returningButton(window, deltaClock, scene);
+    returning_button(window, deltaClock, scene);
 }
 
 void Manual::display(sf::RenderWindow &window){
