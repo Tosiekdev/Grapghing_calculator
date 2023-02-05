@@ -23,6 +23,7 @@ void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
 
 void Menu::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
     ImGui::SFML::Update(window, deltaClock.restart());
+    background(window, scene);
     menuOptions(window, deltaClock, scene);
     title(window, scene);
 
@@ -62,11 +63,11 @@ void Menu::menuOptions(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &s
     if ( ImGui::Button("Calculator", buttonSize) ) {
         scene = CALCULATOR;
     }
-    ImGui::Text("");
+    ImGui::Spacing();
     if ( ImGui::Button("Manual", buttonSize) ) {
         scene = INSTRUCTION;
     }
-    ImGui::Text("");
+    ImGui::Spacing();
     if ( ImGui::Button("Exit", buttonSize) ) {
         window.close();
     }

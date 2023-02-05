@@ -20,8 +20,19 @@ private:
     char _input[1024]="";
     std::vector<std::string> _allFunctions;
 
+    /**
+     * Input space for function formula.
+     */
     void textInput();
+    /**
+     * Shows all plotted functions.
+     */
     void functionsList();
+    /**
+     * Button to plot function from input text.
+     * @param x Width of the window.
+     * @param y Height of the window.
+     */
     void plotButton(float x, float y);
 };
 

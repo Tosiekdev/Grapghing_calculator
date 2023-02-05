@@ -14,6 +14,13 @@ class Manual : public Window{
      */
     Caption caption_;
 
+    /**
+     * Shows information about application.
+     * @param window Application window.
+     * @param scene Application scene.
+     */
+    static void help(sf::RenderWindow& window, Scene& scene);
+
 public:
     /**
      * Constructor.

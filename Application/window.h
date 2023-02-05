@@ -56,6 +56,13 @@ protected:
      */
     static void title(sf::RenderWindow &window, Scene &scene);
 
+    /**
+     * Displays application's background.
+     * @param window App's window.
+     * @param scene App's scene.
+     */
+    static void background(sf::RenderWindow &window, Scene &scene);
+
 public:
     /**
      * Virtual function to handling events.

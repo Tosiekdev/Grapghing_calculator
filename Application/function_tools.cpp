@@ -45,12 +45,21 @@ void FunctionTools::functionsList() {
     {
         static int selected = -1;
         int n = 0;
+        //list all function
         for (std::string& buf:_allFunctions)
         {
             if (ImGui::Selectable(buf.c_str(), selected == n))
                 selected = n;
             n++;
         }
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+        //delete selected function
+        if (ImGui::Button("Delete")) {
+            if (!_allFunctions.empty() && selected >= 0) {
+                _allFunctions.erase(_allFunctions.cbegin() + selected);
+            }
+        }
+        ImGui::PopStyleVar();
         ImGui::TreePop();
     }
 }

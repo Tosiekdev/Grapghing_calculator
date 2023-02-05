@@ -59,3 +59,21 @@ void Window::title(sf::RenderWindow &window, Scene &scene) {
     ImGui::End();
     ImGui::PopStyleVar();
 }
+
+void Window::background(sf::RenderWindow &window, Scene &scene) {
+    //Getting window's size for scaling
+    auto size = window.getSize();
+    auto x = static_cast<float>(size.x);
+    auto y = static_cast<float>(size.y);
+
+    // Proper positioning
+    ImGui::SetNextWindowPos(ImVec2(0,y/13.5f));
+    ImGui::SetNextWindowSize(ImVec2(x,y-y/13.5f));
+
+    //Color theme
+    ImGui::StyleColorsLight();
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+    ImGui::Begin("Background", nullptr, flags);
+    ImGui::End();
+}
