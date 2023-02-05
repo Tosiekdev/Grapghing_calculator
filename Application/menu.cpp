@@ -18,10 +18,6 @@ Menu::Menu(){
     title_.setString("AZ-math");
     title_.setCharacterSize(64);
     title_.setPosition(sf::Vector2f(960, 40));
-
-    calculator_.create_button(sf::Vector2f(810, 280), sf::Vector2f(0.6f, 0.5f), "Calculator");
-    manual_.create_button(sf::Vector2f(810, 485), sf::Vector2f(0.6f, 0.5f), "Manual");
-    exit_.create_button(sf::Vector2f(810, 680), sf::Vector2f(0.6f, 0.5f), "Exit");
 }
 
 void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {

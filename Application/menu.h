@@ -12,21 +12,6 @@
 
 class Menu : public Window{
     /**
-     * Button to go into calculator_.
-     */
-    Button calculator_;
-
-    /**
-     * Button to get know how to use calculator_.
-     */
-    Button manual_;
-
-    /**
-     * Button to exit_.
-     */
-    Button exit_;
-
-    /**
      * Sets and display beautiful control menu buttons.
      */
     static void menuOptions(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
