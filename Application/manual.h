@@ -10,11 +10,6 @@
 
 class Manual : public Window{
     /**
-     * Manual text.
-     */
-    Caption caption_;
-
-    /**
      * Shows information about application.
      * @param window Application window.
      * @param scene Application scene.
@@ -22,11 +17,6 @@ class Manual : public Window{
     static void help(sf::RenderWindow& window, Scene& scene);
 
 public:
-    /**
-     * Constructor.
-     */
-    Manual();
-
     /**
      * Function to handle events in calculator.
      * @param window Window from which events will be handled.
