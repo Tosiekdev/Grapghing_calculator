@@ -7,6 +7,7 @@
 App::App(){
     current_ = MENU;
     window_.create(sf::VideoMode::getFullscreenModes()[0], "az-math", sf::Style::Fullscreen);
+    window_.setFramerateLimit(60);
     window_.setMouseCursorGrabbed(false);
 }
 

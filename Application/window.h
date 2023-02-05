@@ -20,10 +20,6 @@ enum Scene{MENU, CALCULATOR, INSTRUCTION};
  */
 class Window{
 protected:
-    /**
-     * Button used to returning to main menu.
-     */
-    Button returning_;
 
     /**
      * Event to handling.
@@ -44,11 +40,6 @@ protected:
      * Background to the title.
      */
     Object header_;
-
-    /**
-     * Font and text to show title.
-     */
-    Caption title_;
 
     /**
      * Displays button which takes user back to the menu.

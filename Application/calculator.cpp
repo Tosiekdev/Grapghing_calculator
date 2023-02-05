@@ -7,15 +7,6 @@
 Calculator::Calculator(){
     is_focused=false;
 
-    header_.loadFromFile("Textures/header.png");
-    header_.setPosition(sf::Vector2f(0, 0));
-
-    title_.loadFromFile("Fonts/KdamThmorPro-Regular.ttf");
-    title_.setFillColor(sf::Color::Black);
-    title_.setString("AZ-math");
-    title_.setCharacterSize(64);
-    title_.setPosition(sf::Vector2f(960, 40));
-
     x1_.create_button(sf::Vector2f(1010,85),sf::Vector2f(0.2f,0.3f),"1x");
     x10_.create_button(sf::Vector2f(1010,135),sf::Vector2f(0.2f,0.3f),"10x");
     x100_.create_button(sf::Vector2f(1010,185),sf::Vector2f(0.2f,0.3f),"100x");
@@ -127,7 +118,6 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             auto mouse=sf::Mouse::getPosition(window);
 
-            if(returning_.is_focused(mouse,cursor_,window)){ scene=MENU; }
             if(x1_.is_focused(mouse,cursor_,window)){
                 graph.set_scale(1);
                 not_focused();
@@ -215,6 +205,8 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
     if(!is_focused) { is_focused=select_func_.mouse_above(mouse,cursor_,window); }
     if(!is_focused) { is_focused=argument_.mouse_above(mouse,cursor_,window); }
 
+
+    title(window, scene);
     returningButton(window, deltaClock, scene);
 
     if(!is_focused){
@@ -227,9 +219,6 @@ void Calculator::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
 
     graph.draw(window);
-
-    window.draw(header_.getSprite());
-    window.draw(title_.getText());
 
     window.draw(remove_func_.getSprite());
     window.draw(remove_func_.getCaption());
