@@ -18,14 +18,14 @@ class Plot{
     /**
      * Map numbers to colors for plot color.
      */
-     std::map<int, sf::Color> colors{
-            {0,sf::Color::Black},
-            {1, sf::Color::Red},
-            {2, sf::Color::Green},
-            {3, sf::Color::Blue},
-            {4, sf::Color::Yellow},
-            {5, sf::Color::Magenta},
-            {6, sf::Color::Cyan},
+     std::array<sf::Color, 7> _colors = {
+            sf::Color::Black,
+            sf::Color::Red,
+            sf::Color::Green,
+            sf::Color::Blue,
+            sf::Color::Yellow,
+            sf::Color::Magenta,
+            sf::Color::Cyan
      };
 
     /**

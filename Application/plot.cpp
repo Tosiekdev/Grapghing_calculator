@@ -7,6 +7,7 @@
 int Plot::count_=0;
 
 Plot::Plot(){
+    /*
     for(auto &i:lines1_){
         i.setPrimitiveType(sf::Lines);
         i.resize(2);
@@ -29,6 +30,7 @@ Plot::Plot(){
     }
 
     count_++;
+     */
 }
 
 void Plot::create_plot(const std::string &expr, sf::Vector2f position){

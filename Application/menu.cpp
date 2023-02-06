@@ -6,71 +6,72 @@
 
 Menu::Menu(){
     is_focused=false;
-
-    background_.loadFromFile("Textures/back.jpg");
-    background_.setPosition(sf::Vector2f(0, 0));
-
-    header_.loadFromFile("Textures/header.png");
-    header_.setPosition(sf::Vector2f(0, 0));
-
-    title_.loadFromFile("Fonts/KdamThmorPro-Regular.ttf");
-    title_.setFillColor(sf::Color::Black);
-    title_.setString("AZ-math");
-    title_.setCharacterSize(64);
-    title_.setPosition(sf::Vector2f(960, 40));
-
-    calculator_.create_button(sf::Vector2f(810, 280), sf::Vector2f(0.6f, 0.5f), "Calculator");
-    manual_.create_button(sf::Vector2f(810, 485), sf::Vector2f(0.6f, 0.5f), "Manual");
-    exit_.create_button(sf::Vector2f(810, 680), sf::Vector2f(0.6f, 0.5f), "Exit");
 }
 
-void Menu::handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) {
+void Menu::handle_events(sf::RenderWindow &window, Scene &scene) {
     while(window.pollEvent(e_)){
+        ImGui::SFML::ProcessEvent(window, e_);
         switch (e_.type){
             case sf::Event::KeyPressed:
                 if(e_.key.code == sf::Keyboard::Escape) { window.close(); }
                 break;
-        }
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-            auto mouse=sf::Mouse::getPosition(window);
-
-            if(calculator_.is_focused(mouse,cursor_,window)){ scene=CALCULATOR; }
-            if(manual_.is_focused(mouse,cursor_,window)) { scene=INSTRUCTION; }
-            if(exit_.is_focused(mouse,cursor_,window)){ window.close(); }
+            default:
+                ;
         }
     }
 }
 
-void Menu::do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) {
-    is_focused=calculator_.is_focused(sf::Mouse::getPosition(window),cursor_,window);
-    if(!is_focused){
-        is_focused=manual_.is_focused(sf::Mouse::getPosition(window),cursor_,window);
-    }
-    if(!is_focused){
-        is_focused=exit_.is_focused(sf::Mouse::getPosition(window),cursor_,window);
-    }
+void Menu::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+    ImGui::SFML::Update(window, deltaClock.restart());
+    background(window, scene);
+    menuOptions(window, deltaClock, scene);
+    title(window, scene);
 
-    if(!is_focused){
-        cursor_.loadFromSystem(sf::Cursor::Arrow);
-        window.setMouseCursor(cursor_);
-    }
+    ImGui::ShowDemoWindow();
 }
 
 void Menu::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
 
-    window.draw(background_.getSprite());
-    window.draw(header_.getSprite());
-    window.draw(title_.getText());
-
-    window.draw(calculator_.getSprite());
-    window.draw(calculator_.getCaption());
-
-    window.draw(manual_.getSprite());
-    window.draw(manual_.getCaption());
-
-    window.draw(exit_.getSprite());
-    window.draw(exit_.getCaption());
+    ImGui::SFML::Render(window);
 
     window.display();
+}
+
+void Menu::menuOptions(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+    //Getting window's size for scaling
+    auto size = window.getSize();
+    auto x = static_cast<float>(size.x);
+    auto y = static_cast<float>(size.y);
+
+    ImVec2 buttonSize = ImVec2(x/5.f,y/12.f);
+
+    // Proper positioning
+    ImGui::SetNextWindowPos(ImVec2(2.f*x/5.f,7.f*y/24.f));
+    ImGui::SetNextWindowSize(ImVec2(x/4.f,y/2.4f));
+
+    //Rounded edges
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+    ImGui::Begin("menuOptions", nullptr, flags);
+
+    //Color theme
+    ImGui::StyleColorsLight();
+
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+    if ( ImGui::Button("Calculator", buttonSize) ) {
+        scene = CALCULATOR;
+    }
+    ImGui::Spacing();
+    if ( ImGui::Button("Manual", buttonSize) ) {
+        scene = INSTRUCTION;
+    }
+    ImGui::Spacing();
+    if ( ImGui::Button("Exit", buttonSize) ) {
+        window.close();
+    }
+    ImGui::PopFont();
+    ImGui::End();
+    ImGui::PopStyleVar();
 }

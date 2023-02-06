@@ -5,8 +5,11 @@
 #ifndef GRAPHING_CALCULATOR_WINDOW_H
 #define GRAPHING_CALCULATOR_WINDOW_H
 
-#include "UI/button.h"
-#include "UI/object.h"
+#include <SFML/Graphics.hpp>
+
+#include "useful_functions.h"
+#include "imgui.h"
+#include "imgui-SFML.h"
 
 enum Scene{MENU, CALCULATOR, INSTRUCTION};
 
@@ -15,10 +18,6 @@ enum Scene{MENU, CALCULATOR, INSTRUCTION};
  */
 class Window{
 protected:
-    /**
-     * Button used to returning to main menu.
-     */
-    Button returning_;
 
     /**
      * Event to handling.
@@ -36,32 +35,39 @@ protected:
     sf::Cursor cursor_;
 
     /**
-     * Background to the title.
+     * Displays button which takes user back to the menu.
+     * @param window Display target.
+     * @param deltaClock For updating ImGui.
+     * @param scene Application scene.
      */
-    Object header_;
+    static void returning_button(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene);
 
     /**
-     * Font and text to show title.
+     * Displays application title.
+     * @param window Display target.
+     * @param scene Application scene.
      */
-    Caption title_;
+    static void title(sf::RenderWindow &window, Scene &scene);
 
     /**
-     * Background of scene.
+     * Displays application's background.
+     * @param window App's window.
+     * @param scene App's scene.
      */
-    Object background_;
+    static void background(sf::RenderWindow &window, Scene &scene);
 
 public:
     /**
      * Virtual function to handling events.
      * @param window Window from events are handled.
      */
-    virtual void handle_events(sf::RenderWindow &window, Scene &scene, sf::Clock deltaClock) =0;
+    virtual void handle_events(sf::RenderWindow &window, Scene &scene) =0;
 
     /**
      * Virtual function to make some operations between frames.
      * @param window Window, maybe it will be needed.
      */
-    virtual void do_stuff(sf::RenderWindow &window, sf::Clock deltaClock) =0;
+    virtual void do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) =0;
 
     /**
      * Virtual function to display window content.

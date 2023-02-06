@@ -31,12 +31,13 @@ class App{
     /**
      * Enum type to manage current scene.
      */
-     Scene current_;
+    Scene current_;
 
-     /**
-      * Main window of program.
-      */
-      sf::RenderWindow window_;
+    /**
+     * Main window of program.
+     */
+    sf::RenderWindow window_;
+
 
 public:
     /**
