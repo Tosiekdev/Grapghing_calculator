@@ -6,9 +6,6 @@
 #define GRAPHING_CALCULATOR_MENU_H
 
 #include "window.h"
-#include "UI/object.h"
-#include "UI/caption.h"
-#include "UI/button.h"
 
 class Menu : public Window{
     /**

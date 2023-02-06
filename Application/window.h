@@ -5,11 +5,9 @@
 #ifndef GRAPHING_CALCULATOR_WINDOW_H
 #define GRAPHING_CALCULATOR_WINDOW_H
 
-#include "UI/button.h"
-#include "UI/object.h"
+#include <SFML/Graphics.hpp>
 
 #include "useful_functions.h"
-
 #include "imgui.h"
 #include "imgui-SFML.h"
 
@@ -35,11 +33,6 @@ protected:
      * Cursor used in menu.
      */
     sf::Cursor cursor_;
-
-    /**
-     * Background to the title.
-     */
-    Object header_;
 
     /**
      * Displays button which takes user back to the menu.

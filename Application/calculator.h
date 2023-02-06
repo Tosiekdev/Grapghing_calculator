@@ -7,10 +7,6 @@
 
 #include "window.h"
 #include "graph.h"
-#include "UI/object.h"
-#include "UI/caption.h"
-#include "UI/button.h"
-#include "UI/textbox.h"
 #include "function_tools.h"
 #include "canvas.h"
 

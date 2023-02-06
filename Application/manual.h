@@ -6,7 +6,6 @@
 #define GRAPHING_CALCULATOR_MANUAL_H
 
 #include "window.h"
-#include "UI/caption.h"
 
 class Manual : public Window{
     /**
