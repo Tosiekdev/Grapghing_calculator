@@ -27,15 +27,6 @@ class Plot{
             sf::Color::Magenta,
             sf::Color::Cyan
      };
-     std::map<int, sf::Color> colors{
-            {0,sf::Color::Black},
-            {1, sf::Color::Red},
-            {2, sf::Color::Green},
-            {3, sf::Color::Blue},
-            {4, sf::Color::Yellow},
-            {5, sf::Color::Magenta},
-            {6, sf::Color::Cyan},
-     };
 
     /**
      * Function counter.

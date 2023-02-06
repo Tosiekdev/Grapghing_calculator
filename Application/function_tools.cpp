@@ -10,8 +10,6 @@ void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     auto x = static_cast<float>(size.x);
     auto y = static_cast<float>(size.y);
 
-    ImVec2 buttonSize = ImVec2(x/12.f,y/18.f);
-
     // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(0,y/13.5f));
     ImGui::SetNextWindowSize(ImVec2(x/3.f,y-y/13.5f));

@@ -29,6 +29,7 @@ add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.
         imgui/imgui_demo.cpp
         Application/useful_functions.h Application/useful_functions.cpp
         Application/function_tools.h Application/function_tools.cpp
+        Application/canvas.h Application/canvas.cpp
         )
 
 include(FindPkgConfig)

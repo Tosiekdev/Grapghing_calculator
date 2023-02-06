@@ -4,10 +4,6 @@
 
 #include "calculator.h"
 
-Calculator::Calculator(){
-    is_focused=false;
-}
-
 void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
     while (window.pollEvent(e_)) {
         ImGui::SFML::ProcessEvent(window, e_);
@@ -31,6 +27,8 @@ void Calculator::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
 
     ImGui::SFML::Render(window);
+
+    _coordinateSystem.draw(window);
 
     window.display();
 }

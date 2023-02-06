@@ -12,6 +12,7 @@
 #include "UI/button.h"
 #include "UI/textbox.h"
 #include "function_tools.h"
+#include "canvas.h"
 
 /**
  * Class to handle graphic calculator.
@@ -22,12 +23,12 @@ class Calculator : public Window{
       */
      FunctionTools _tools;
 
-public:
-    /**
-     * Constructor.
-     */
-    Calculator();
+     /**
+      * Graph of functions.
+      */
+     Canvas _coordinateSystem;
 
+public:
     /**
      * Function to handle events in calculator.
      * @param window Window from which events will be handled.
