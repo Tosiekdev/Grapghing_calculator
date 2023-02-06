@@ -17,107 +17,10 @@
  * Class to handle graphic calculator.
  */
 class Calculator : public Window{
-    /**
-     * Map numbers to colors for plot color.
-     */
-    std::map<int, sf::Color> colors{
-            {0,sf::Color::Black},
-            {1, sf::Color::Red},
-            {2, sf::Color::Green},
-            {3, sf::Color::Blue},
-            {4, sf::Color::Yellow},
-            {5, sf::Color::Magenta},
-            {6, sf::Color::Cyan},
-    };
-
-    /**
-     * Graph to graph functions.
-     */
-     Graph graph;
-     /**
-      *
-      */
-     Button x1_;
-     /**
-      * Button to set scale to 10.
-      */
-     Button x10_;;
-     /**
-      * Button to set scale to 100.
-      */
-     Button x100_;
-
-     /**
-      * Place to enter functions.
-      */
-     Textbox textbox_;
-
-     /**
-      * Caption to selected function.
-      */
-     Caption selected_;
-
-     /**
-      * Caption with information about textbox taking an argument.
-      */
-     Caption calc_for_;
-
-     /**
-      * Textbox for argument
-      */
-     Textbox argument_;
-
-     /**
-      * Button to remove functions.
-      */
-     Button remove_func_;
-
-     /**
-      * Button to calculate function value for certain x.
-      */
-     Button calc_;
-
-     /**
-      * Caption f(x)=calculated value.
-      */
-     Caption f_calculated_;
-
-     /**
-      * Textbox to enter selected function.
-      */
-     Textbox select_func_;
-
-     /**
-      * Caption with f(x)
-      */
-     Caption f_;
-
-     /**
-      * Squares responsible for legend.
-      */
-     std::array<sf::RectangleShape,7> func_colors_;
-
-     /**
-      * Functions formulas.
-      */
-     std::array<Caption, 7> func_caps_;
-
      /**
       * Shows function tools.
       */
      FunctionTools _tools;
-
-     /**
-      * Set all textbox to not focused.
-      */
-     void not_focused();
-
-     /**
-      * Shows input text for function formula.
-      * @param window Application window.
-      * @param scene Application scenes.
-      */
-     static void function_input(sf::RenderWindow &window, Scene &scene);
 
 public:
     /**
