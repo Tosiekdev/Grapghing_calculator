@@ -19,7 +19,9 @@ void Window::returning_button(sf::RenderWindow &window, sf::Clock &deltaClock, S
     //Rounded edges
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
-    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+    int flags = ImGuiWindowFlags_NoTitleBar
+            | ImGuiWindowFlags_NoResize
+            | ImGuiWindowFlags_NoBackground;
     ImGui::Begin("Returning Button", nullptr, flags);
 
     //Color theme
@@ -50,7 +52,9 @@ void Window::title(sf::RenderWindow &window, Scene &scene) {
     //Color theme
     ImGui::StyleColorsClassic();
 
-    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+    int flags = ImGuiWindowFlags_NoTitleBar
+            | ImGuiWindowFlags_NoResize
+            | ImGuiWindowFlags_NoBringToFrontOnFocus;
     ImGui::Begin("Title bar", nullptr, flags);
 
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[2]);
@@ -73,7 +77,9 @@ void Window::background(sf::RenderWindow &window, Scene &scene) {
     //Color theme
     ImGui::StyleColorsLight();
 
-    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+    int flags = ImGuiWindowFlags_NoTitleBar
+            | ImGuiWindowFlags_NoResize
+            | ImGuiWindowFlags_NoBringToFrontOnFocus;
     ImGui::Begin("Background", nullptr, flags);
     ImGui::End();
 }

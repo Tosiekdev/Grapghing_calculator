@@ -60,7 +60,7 @@ void Canvas::show_scale(sf::RenderWindow &window) {
     float x = static_cast<float>(window.getSize().x);
     float y = static_cast<float>(window.getSize().y);
 
-    ImGui::SetNextWindowSize(ImVec2(x/10.f,y/20.f));
+    ImGui::SetNextWindowSize(ImVec2(x/10.f,y/22.f));
     ImGui::SetNextWindowPos(ImVec2(x-x/6.f,y-y/10.f));
 
     int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
@@ -79,4 +79,8 @@ void Canvas::show_scale(sf::RenderWindow &window) {
     if (_scale < 0.01f) {
         _scale = 0.01f;
     }
+}
+
+void Canvas::show_numbers(sf::RenderWindow &window) {
+
 }

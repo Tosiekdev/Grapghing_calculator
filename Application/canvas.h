@@ -24,7 +24,17 @@ public:
      */
     std::vector<std::string>& all_functions();
 
+    /**
+     * Shows scale indicator of plot;
+     * @param window Application's window.
+     */
     void show_scale(sf::RenderWindow &window);
+
+    /**
+     * Shows proper for scale numbers on the coordinate system;
+     * @param window Application's window.
+     */
+    void show_numbers(sf::RenderWindow &window);
 
 private:
     /**
