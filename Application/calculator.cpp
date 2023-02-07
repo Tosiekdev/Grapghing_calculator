@@ -20,15 +20,16 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
 
     title(window, scene);
     returning_button(window, deltaClock, scene);
+    _tools.show_scale(window);
     _tools.show(window, scene);
 }
 
 void Calculator::display(sf::RenderWindow &window){
     window.clear(sf::Color::White);
 
-    ImGui::SFML::Render(window);
+    _tools.show_canvas(window);
 
-    _coordinateSystem.draw(window);
+    ImGui::SFML::Render(window);
 
     window.display();
 }

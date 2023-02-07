@@ -19,11 +19,6 @@ class Calculator : public Window{
       */
      FunctionTools _tools;
 
-     /**
-      * Graph of functions.
-      */
-     Canvas _coordinateSystem;
-
 public:
     /**
      * Function to handle events in calculator.

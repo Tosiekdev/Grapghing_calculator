@@ -8,6 +8,9 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 class Canvas {
 public:
     /**
@@ -16,7 +19,22 @@ public:
      */
     void draw(sf::RenderWindow& window);
 
+    /**
+     * @return Reference to vector of all functions.
+     */
+    std::vector<std::string>& all_functions();
+
+    void show_scale(sf::RenderWindow &window);
+
 private:
+    /**
+     * Defines scale of plot.
+     */
+    float _scale = 1.f;
+    /**
+     * Step for increasing/decreasing scale
+     */
+    float _scalingStep = 0.1f;
     /*
      * Vertical lines of coordinate system.
      */
@@ -25,6 +43,10 @@ private:
      * Horizontal lines of coordinate system.
      */
     std::array<sf::RectangleShape, 11> _horizontalLines;
+    /**
+     * Stores definitions of all functions.
+     */
+    std::vector<std::string> _allFunctions;
 
     /**
      * Sets proper position of coordinate system (relatively to window size).

@@ -50,3 +50,33 @@ void Canvas::set_lines(sf::RenderWindow& window) {
         j.setFillColor(sf::Color(150,150,150));
     }
 }
+
+std::vector<std::string> &Canvas::all_functions() {
+    return _allFunctions;
+}
+
+void Canvas::show_scale(sf::RenderWindow &window) {
+    //windows size
+    float x = static_cast<float>(window.getSize().x);
+    float y = static_cast<float>(window.getSize().y);
+
+    ImGui::SetNextWindowSize(ImVec2(x/10.f,y/20.f));
+    ImGui::SetNextWindowPos(ImVec2(x-x/6.f,y-y/10.f));
+
+    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+
+    ImGui::Begin("Scale", nullptr,flags);
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
+    _scalingStep = _scale < 1.f ? 0.01f:0.1f;
+    ImGui::InputScalar("Scale",ImGuiDataType_Float,&_scale,&_scalingStep,nullptr,"%.2f");
+    ImGui::PopFont();
+    ImGui::End();
+
+    // Limitation for scale
+    if (_scale > 10.f) {
+        _scale = 10.f;
+    }
+    if (_scale < 0.01f) {
+        _scale = 0.01f;
+    }
+}

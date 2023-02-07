@@ -17,6 +17,7 @@ void App::start(){
     ImGuiIO &io = ImGui::GetIO();
     io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 32.f);
     io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 64.f);
+    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 24.f);
     ImGui::SFML::UpdateFontTexture();
     while(window_.isOpen()){
         switch (current_){

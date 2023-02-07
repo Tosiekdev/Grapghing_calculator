@@ -44,7 +44,7 @@ void FunctionTools::functionsList() {
         static int selected = -1;
         int n = 0;
         //list all function
-        for (std::string& buf:_allFunctions)
+        for (std::string& buf:_coordinateSystem.all_functions())
         {
             if (ImGui::Selectable(buf.c_str(), selected == n))
                 selected = n;
@@ -53,8 +53,8 @@ void FunctionTools::functionsList() {
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
         //delete selected function
         if (ImGui::Button("Delete")) {
-            if (!_allFunctions.empty() && selected >= 0) {
-                _allFunctions.erase(_allFunctions.cbegin() + selected);
+            if (!_coordinateSystem.all_functions().empty() && selected >= 0) {
+                _coordinateSystem.all_functions().erase(_coordinateSystem.all_functions().cbegin() + selected);
             }
         }
         ImGui::PopStyleVar();
@@ -70,7 +70,7 @@ void FunctionTools::plotButton(float x, float y) {
 
     if (ImGui::Button("Plot", buttonSize)) {
         if (_input[0] != 0 && _input[0] != ' ') {
-            _allFunctions.emplace_back(_input);
+            _coordinateSystem.all_functions().emplace_back(_input);
 
             for (char &i: _input) {
                 i = 0;
@@ -79,4 +79,12 @@ void FunctionTools::plotButton(float x, float y) {
     }
 
     ImGui::PopStyleVar();
+}
+
+void FunctionTools::show_canvas(sf::RenderWindow &window) {
+    _coordinateSystem.draw(window);
+}
+
+void FunctionTools::show_scale(sf::RenderWindow &window) {
+    _coordinateSystem.show_scale(window);
 }
