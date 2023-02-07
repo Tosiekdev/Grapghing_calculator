@@ -40,6 +40,12 @@ public:
      */
     void show_numbers(sf::RenderWindow &window);
 
+    /**
+     * Changes coordination system _scale if mouse scrolled.
+     * @param delta Wheel offset.
+     */
+    void scroll_scale(float delta);
+
 private:
     char _input[1024]="";
     Canvas _coordinateSystem;

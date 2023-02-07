@@ -121,7 +121,8 @@ void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) co
         std::string title = "Vertical number" + std::to_string(i);
         float number = _startEndVertical.second/_scale - j/_scale;
         std::string convertedNumber = std::to_string(number);
-        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+3);
+        int afterComa = _scale > 1 ? 4 : 3;
+        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+afterComa);
 
         ImGui::Begin(title.c_str(), nullptr, flags);
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
@@ -143,12 +144,22 @@ void Canvas::horizontal_numbers(float x, float step, float y) const {
         std::string title = "Horizontal number" + std::to_string(i);
         float number = _startEndHorizontal.first/_scale + j/_scale;
         std::string convertedNumber = std::to_string(number);
-        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+3);
+        int afterComa = _scale > 1 ? 4 : 3;
+        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+afterComa);
 
         ImGui::Begin(title.c_str(), nullptr, flags);
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
         ImGui::Text("%s", convertedNumber.c_str());
         ImGui::PopFont();
         ImGui::End();
+    }
+}
+
+void Canvas::scroll_scale(float delta) {
+    _scalingStep = _scale < 1.f ? 0.01f:0.1f;
+    if (delta > 0) {
+        _scale += _scalingStep;
+    } else {
+        _scale -= _scalingStep;
     }
 }

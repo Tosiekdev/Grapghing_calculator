@@ -37,6 +37,12 @@ public:
      */
     void show_numbers(sf::RenderWindow &window) const;
 
+    /**
+     * Changes _scale if mouse scrolled.
+     * @param delta Wheel offset.
+     */
+    void scroll_scale(float delta);
+
 private:
     /**
      * Defines scale of plot.

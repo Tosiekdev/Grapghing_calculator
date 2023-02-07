@@ -92,3 +92,7 @@ void FunctionTools::show_scale(sf::RenderWindow &window) {
 void FunctionTools::show_numbers(sf::RenderWindow &window) {
     _coordinateSystem.show_numbers(window);
 }
+
+void FunctionTools::scroll_scale(float delta) {
+    _coordinateSystem.scroll_scale(delta);
+}

@@ -12,6 +12,9 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
             if (e_.key.code == sf::Keyboard::Enter) {
             }
         }
+        if (e_.type == sf::Event::MouseWheelScrolled) {
+            _tools.scroll_scale(e_.mouseWheelScroll.delta);
+        }
     }
 }
 
