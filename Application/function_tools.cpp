@@ -88,3 +88,7 @@ void FunctionTools::show_canvas(sf::RenderWindow &window) {
 void FunctionTools::show_scale(sf::RenderWindow &window) {
     _coordinateSystem.show_scale(window);
 }
+
+void FunctionTools::show_numbers(sf::RenderWindow &window) {
+    _coordinateSystem.show_numbers(window);
+}

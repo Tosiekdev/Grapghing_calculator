@@ -93,6 +93,62 @@ void Canvas::show_scale(sf::RenderWindow &window) {
     }
 }
 
-void Canvas::show_numbers(sf::RenderWindow &window) {
+void Canvas::show_numbers(sf::RenderWindow &window) const {
+    float x = static_cast<float>(window.getSize().x);
+    float y = static_cast<float>(window.getSize().y);
 
+    // width of the coordinate system
+    float graphWidth = x - x / 3.f;
+
+    float step = (graphWidth - 11.f) / 12.f;
+
+    // vertical numbers
+    vertical_numbers(x, graphWidth, step, y);
+
+    // horizontal numbers
+    horizontal_numbers(x, step, y);
+}
+
+void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) const {
+    for (int i = 0; i < 11; ++i) {
+        auto j = static_cast<float>(i);
+
+        ImGui::SetNextWindowSize(ImVec2(0,0));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f,y/13.5f+j*step));
+
+        int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
+
+        std::string title = "Vertical number" + std::to_string(i);
+        float number = _startEndVertical.second/_scale - j/_scale;
+        std::string convertedNumber = std::to_string(number);
+        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+3);
+
+        ImGui::Begin(title.c_str(), nullptr, flags);
+        ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
+        ImGui::Text("%s", convertedNumber.c_str());
+        ImGui::PopFont();
+        ImGui::End();
+    }
+}
+
+void Canvas::horizontal_numbers(float x, float step, float y) const {
+    for (int i = 0; i < 12; ++i) {
+        auto j = static_cast<float>(i);
+
+        ImGui::SetNextWindowSize(ImVec2(0,0));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step,y/27.f+y/2.f));
+
+        int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
+
+        std::string title = "Horizontal number" + std::to_string(i);
+        float number = _startEndHorizontal.first/_scale + j/_scale;
+        std::string convertedNumber = std::to_string(number);
+        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+3);
+
+        ImGui::Begin(title.c_str(), nullptr, flags);
+        ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
+        ImGui::Text("%s", convertedNumber.c_str());
+        ImGui::PopFont();
+        ImGui::End();
+    }
 }

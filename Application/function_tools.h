@@ -34,6 +34,12 @@ public:
      */
     void show_scale(sf::RenderWindow &window);
 
+    /**
+     * Displays numbers on coordinate system
+     * @param window Application's window.
+     */
+    void show_numbers(sf::RenderWindow &window);
+
 private:
     char _input[1024]="";
     Canvas _coordinateSystem;

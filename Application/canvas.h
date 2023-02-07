@@ -35,7 +35,7 @@ public:
      * Shows proper for scale numbers on the coordinate system;
      * @param window Application's window.
      */
-    void show_numbers(sf::RenderWindow &window);
+    void show_numbers(sf::RenderWindow &window) const;
 
 private:
     /**
@@ -49,11 +49,11 @@ private:
     /**
      * Interval of visible y axis.
      */
-    std::pair<float, float> _startEndVertical = std::make_pair(10.f,10.f);
+    std::pair<float, float> _startEndVertical = std::make_pair(-5.f,5.f);
     /**
      * Interval of visible x axis.
      */
-    std::pair<float, float> _startEndHorizontal = std::make_pair(10.f,10.f);
+    std::pair<float, float> _startEndHorizontal = std::make_pair(-6.f,6.f);
     /*
      * Vertical lines of coordinate system.
      */
@@ -72,6 +72,22 @@ private:
      * @param window Application window.
      */
     void set_lines(sf::RenderWindow& window);
+
+    /**
+     * Draws vertical numbers on coordinate system.
+     * @param x Width of the window.
+     * @param graphWidth Width of the coordinate system.
+     * @param step Size of the space between lines.
+     * @param y Height of the window.
+     */
+    void vertical_numbers(float x, float graphWidth, float step, float y) const;
+    /**
+     * Draws horizontal numbers on coordinate system.
+     * @param x Width of the window.
+     * @param step Size of the space between lines.
+     * @param y Height of the window.
+     */
+    void horizontal_numbers(float x, float step, float y) const;
 };
 
 
