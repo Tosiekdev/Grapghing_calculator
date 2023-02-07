@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <utility>
 
 #include "imgui.h"
 #include "imgui-SFML.h"
@@ -45,6 +46,14 @@ private:
      * Step for increasing/decreasing scale
      */
     float _scalingStep = 0.1f;
+    /**
+     * Interval of visible y axis.
+     */
+    std::pair<float, float> _startEndVertical = std::make_pair(10.f,10.f);
+    /**
+     * Interval of visible x axis.
+     */
+    std::pair<float, float> _startEndHorizontal = std::make_pair(10.f,10.f);
     /*
      * Vertical lines of coordinate system.
      */

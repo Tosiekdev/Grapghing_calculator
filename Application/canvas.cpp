@@ -34,20 +34,32 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     // line size
     sf::Vector2f verticalLineSize = sf::Vector2f(1, y - y / 13.5f);
+    sf::Vector2f verticalLineSizeBolded = sf::Vector2f(3, y - y / 13.5f);
     sf::Vector2f horizontalLineSize = sf::Vector2f(graphWidth, 1);
+    sf::Vector2f horizontalLineSizeBolded = sf::Vector2f(graphWidth, 3);
 
+    int a = 0;
     for ( auto& i:_verticalLines ) {
-        i = sf::RectangleShape( verticalLineSize);
-        i.setPosition( verticalStartX, verticalLineY);
+        sf::Vector2f size = a == 5 ? verticalLineSizeBolded : verticalLineSize;
+        float posX = a == 5 ? verticalStartX-1 : verticalStartX;
+        sf::Color color = a == 5 ? sf::Color::Black : sf::Color(150,150,150);
+        i = sf::RectangleShape(size);
+        i.setPosition( posX, verticalLineY);
         verticalStartX += step;
-        i.setFillColor(sf::Color(150,150,150));
+        i.setFillColor(color);
+        a++;
     }
 
+    int b = 0;
     for (auto& j:_horizontalLines){
-        j = sf::RectangleShape(horizontalLineSize);
-        j.setPosition(horizontalLineX, horizontalStartY);
+        sf::Vector2f size = b == 4 ? horizontalLineSizeBolded : horizontalLineSize;
+        float posY = b == 4 ? horizontalStartY-1 : horizontalStartY;
+        sf::Color color = b == 4 ? sf::Color::Black : sf::Color(150,150,150);
+        j = sf::RectangleShape(size);
+        j.setPosition(horizontalLineX, posY);
         horizontalStartY += step;
-        j.setFillColor(sf::Color(150,150,150));
+        j.setFillColor(color);
+        b++;
     }
 }
 

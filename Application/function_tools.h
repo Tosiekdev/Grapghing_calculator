@@ -28,6 +28,10 @@ public:
      */
     void show_canvas(sf::RenderWindow &window);
 
+    /**
+     * Shows controls for scale.
+     * @param window Application's window.
+     */
     void show_scale(sf::RenderWindow &window);
 
 private:
