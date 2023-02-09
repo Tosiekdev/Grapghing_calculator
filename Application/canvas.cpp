@@ -176,7 +176,7 @@ std::vector<std::array<std::pair<float, float>, 1000>> Canvas::evaluate_function
         std::array<std::pair<float, float>, 1000> array;
         for (int i = 0; i < 1000; ++i) {
             auto j = static_cast<float>(i);
-            float x = _startEndHorizontal.first / _scale + 12.f / 1000.f * j;
+            float x = _startEndHorizontal.first / _scale + 12.f / 1000.f / _scale * j;
             float y;
             try {
                 y = static_cast<float>(function.calc_value(x));
@@ -205,7 +205,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
     float b = width / 2.f;
 
     // vertical shift
-    float z = _horizontalLines[4].getPosition().y;
+    float z = _horizontalLines[4].getPosition().y+1;
 
     auto functionsValues = evaluate_functions();
 
@@ -217,7 +217,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
                 float x = point.first;
                 float y = point.second;
 
-                x -= _startEndHorizontal.first;
+                x -= _startEndHorizontal.first / _scale;
 
                 // scale values
                 x *= a;
@@ -227,8 +227,8 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
                 x += b;
                 y += z;
 
-                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+1),sf::Color::Blue);
-                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-1),sf::Color::Blue);
+                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+2),sf::Color::Blue);
+                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-2),sf::Color::Blue);
                 plot.append(top);
                 plot.append(bottom);
             }
