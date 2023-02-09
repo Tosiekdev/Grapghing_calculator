@@ -75,13 +75,7 @@ void FunctionTools::plot_button(float x, float y) {
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
     if (ImGui::Button("Plot", buttonSize)) {
-        if (_input[0] != 0 && _input[0] != ' ') {
-            _coordinateSystem.all_functions().emplace_back(_input);
-
-            for (char &i: _input) {
-                i = 0;
-            }
-        }
+        add_function();
     }
 
     ImGui::PopStyleVar();
@@ -112,12 +106,22 @@ void FunctionTools::more_about_function() {
         std::string function = _coordinateSystem.all_functions()[_selected];
         az::Function f;
         f.start(function);
-        _f = static_cast<float>(f.calc_value(_x));
+        try {
+            _f = static_cast<float>(f.calc_value(_x));
+        } catch (std::exception &e) {
+            _f = nanf("");
+        }
     }
 
     ImGui::Spacing();
     if (!std::isnan(_f)) {
         std::string text = "f(x) = " + std::to_string(_f);
         ImGui::Text("%s", text.c_str());
+    }
+}
+
+void FunctionTools::add_function() {
+    if (_input[0] != 0 && _input[0] != ' ') {
+        _coordinateSystem.all_functions().emplace_back(_input);
     }
 }

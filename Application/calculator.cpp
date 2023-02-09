@@ -10,6 +10,7 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
         if (e_.type == sf::Event::KeyPressed) {
             if (e_.key.code == sf::Keyboard::Escape) { scene = MENU; }
             if (e_.key.code == sf::Keyboard::Enter) {
+                _tools.add_function();
             }
         }
         if (e_.type == sf::Event::MouseWheelScrolled) {

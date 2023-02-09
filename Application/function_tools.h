@@ -46,6 +46,11 @@ public:
      */
     void scroll_scale(float delta);
 
+    /**
+     * Adds function from and clears textbox.
+     */
+    void add_function();
+
 private:
     char _input[1024]="";
     Canvas _coordinateSystem;
