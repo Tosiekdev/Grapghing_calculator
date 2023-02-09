@@ -6,7 +6,6 @@
 #define GRAPHING_CALCULATOR_CALCULATOR_H
 
 #include "window.h"
-#include "graph.h"
 #include "function_tools.h"
 #include "canvas.h"
 
