@@ -209,6 +209,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
 
     auto functionsValues = evaluate_functions();
 
+    int n = 0;
     for (const auto &i:functionsValues) {
         sf::VertexArray plot(sf::TriangleStrip);
         for (const auto &point:i) {
@@ -227,13 +228,13 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
                 x += b;
                 y += z;
 
-                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+2),sf::Color::Blue);
-                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-2),sf::Color::Blue);
+                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+2),_functionColors[n%7]);
+                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-2),_functionColors[n%7]);
                 plot.append(top);
                 plot.append(bottom);
             }
         }
-
+        n++;
         returns.push_back(plot);
     }
 

@@ -74,6 +74,16 @@ private:
      */
     std::vector<std::string> _allFunctions;
 
+    const std::array<sf::Color, 7> _functionColors= {
+            sf::Color::Black,
+            sf::Color::Blue,
+            sf::Color::Magenta,
+            sf::Color::Yellow,
+            sf::Color::Green,
+            sf::Color::Red,
+            sf::Color::Cyan
+    };
+
     /**
      * Sets proper position of coordinate system (relatively to window size).
      * @param window Application window.
