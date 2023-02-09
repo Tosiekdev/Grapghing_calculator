@@ -11,6 +11,7 @@
 
 #include "imgui.h"
 #include "imgui-SFML.h"
+#include "azmath.h"
 
 class Canvas {
 public:
@@ -94,6 +95,18 @@ private:
      * @param y Height of the window.
      */
     void horizontal_numbers(float x, float step, float y) const;
+
+    /**
+     * Calculates value of all functions on visible interval.
+     * @return 1000 coordinates of points which are subset of function.
+     */
+    std::vector<std::array<std::pair<float,float>, 1000>> evaluate_functions();
+
+    /**
+     * Calculates positions of points to draw graph.
+     * @return Vector of vertex arrays in type sf::TriangleStrip.
+     */
+    std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow &window);
 };
 
 

@@ -14,6 +14,10 @@ void Canvas::draw(sf::RenderWindow &window) {
     for (const auto& j:_horizontalLines) {
         window.draw(j);
     }
+
+    for (const auto& x: prepare_graphs(window)) {
+        window.draw(x);
+    }
 }
 
 void Canvas::set_lines(sf::RenderWindow& window) {
@@ -156,10 +160,85 @@ void Canvas::horizontal_numbers(float x, float step, float y) const {
 }
 
 void Canvas::scroll_scale(float delta) {
-    _scalingStep = _scale < 1.f ? 0.01f:0.1f;
+    _scalingStep = _scale < 1.f ? 0.01f : 0.1f;
     if (delta > 0) {
         _scale += _scalingStep;
     } else {
         _scale -= _scalingStep;
     }
+}
+
+std::vector<std::array<std::pair<float, float>, 1000>> Canvas::evaluate_functions() {
+    std::vector<std::array<std::pair<float, float>, 1000>> functions;
+    for (std::string &func : _allFunctions) {
+        az::Function function;
+        function.start(func);
+        std::array<std::pair<float, float>, 1000> array;
+        for (int i = 0; i < 1000; ++i) {
+            auto j = static_cast<float>(i);
+            float x = _startEndHorizontal.first / _scale + 12.f / 1000.f * j;
+            float y;
+            try {
+                y = static_cast<float>(function.calc_value(x));
+            } catch (az::OutOfDomain &e) {
+                y = std::nanf("");
+            }
+            std::pair<float, float> point = std::make_pair(x, y);
+            array[i] = point;
+        }
+        functions.push_back(array);
+    }
+    return functions;
+}
+
+std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
+    std::vector<sf::VertexArray> returns;
+
+    auto width = static_cast<float>(window.getSize().x);
+    auto height = static_cast<float>(window.getSize().y);
+
+    // calculating graph width
+    width = width - width / 3.f;
+    float step = (width - 11.f) / 12.f;
+
+    // scaling factor
+    float a = width / 12.f * _scale;
+
+    // shifting coefficient
+    float b = width / 2.f;
+
+    // vertical shift
+    float z = _horizontalLines[4].getPosition().y;
+
+    auto functionsValues = evaluate_functions();
+
+    for (const auto &i:functionsValues) {
+        sf::VertexArray plot(sf::TriangleStrip);
+        for (const auto &point:i) {
+            if (!isnanf(point.second)) {
+                //get points
+                float x = point.first;
+                float y = point.second;
+
+                x -= _startEndHorizontal.first;
+
+                // scale values
+                x *= a;
+                y *= -a;
+
+                // shift graph
+                x += b;
+                y += z;
+
+                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+1),sf::Color::Blue);
+                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-1),sf::Color::Blue);
+                plot.append(top);
+                plot.append(bottom);
+            }
+        }
+
+        returns.push_back(plot);
+    }
+
+    return returns;
 }
