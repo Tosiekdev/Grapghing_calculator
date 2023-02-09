@@ -194,12 +194,9 @@ std::vector<std::array<std::pair<float, float>, 1000>> Canvas::evaluate_function
 std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
     std::vector<sf::VertexArray> returns;
 
-    auto width = static_cast<float>(window.getSize().x);
-    auto height = static_cast<float>(window.getSize().y);
-
     // calculating graph width
+    auto width = static_cast<float>(window.getSize().x);
     width = width - width / 3.f;
-    float step = (width - 11.f) / 12.f;
 
     // scaling factor
     float a = width / 12.f * _scale;
