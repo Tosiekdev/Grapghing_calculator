@@ -49,21 +49,31 @@ public:
 private:
     char _input[1024]="";
     Canvas _coordinateSystem;
+    float _x = 0;
+    float _f = nanf("");
+    int _selected = -1;
 
     /**
      * Input space for function formula.
      */
-    void textInput();
+    void text_input();
+
     /**
      * Shows all plotted functions.
      */
-    void functionsList();
+    void functions_list();
+
     /**
      * Button to plot function from input text.
      * @param x Width of the window.
      * @param y Height of the window.
      */
-    void plotButton(float x, float y);
+    void plot_button(float x, float y);
+
+    /**
+     * Gives opportunity to calculate value of the function for given argument.
+     */
+    void more_about_function();
 };
 
 

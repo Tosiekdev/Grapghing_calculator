@@ -18,18 +18,25 @@ void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     ImGui::StyleColorsLight();
 
     int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+
     ImGui::Begin("Function tools", nullptr, flags);
+
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
-    textInput();
+
+    text_input();
     ImGui::Spacing();
-    plotButton(x,y);
+    plot_button(x, y);
     ImGui::Spacing();
-    functionsList();
+    functions_list();
+    ImGui::Spacing();
+    more_about_function();
+
     ImGui::PopFont();
+
     ImGui::End();
 }
 
-void FunctionTools::textInput() {
+void FunctionTools::text_input() {
     //Rounded edges
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
@@ -38,31 +45,30 @@ void FunctionTools::textInput() {
     ImGui::PopStyleVar();
 }
 
-void FunctionTools::functionsList() {
+void FunctionTools::functions_list() {
     if (ImGui::TreeNode("Functions"))
     {
-        static int selected = -1;
+        //static int selected = -1;
         int n = 0;
         //list all function
         for (std::string& buf:_coordinateSystem.all_functions())
         {
-            if (ImGui::Selectable(buf.c_str(), selected == n))
-                selected = n;
+            if (ImGui::Selectable(buf.c_str(), _selected == n)) {
+                _selected = n;
+            }
             n++;
         }
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
         //delete selected function
         if (ImGui::Button("Delete")) {
-            if (!_coordinateSystem.all_functions().empty() && selected >= 0) {
-                _coordinateSystem.all_functions().erase(_coordinateSystem.all_functions().cbegin() + selected);
-            }
+            _coordinateSystem.all_functions().erase(_coordinateSystem.all_functions().cbegin() + _selected);
         }
         ImGui::PopStyleVar();
         ImGui::TreePop();
     }
 }
 
-void FunctionTools::plotButton(float x, float y) {
+void FunctionTools::plot_button(float x, float y) {
     ImVec2 buttonSize = ImVec2(x/12.f,y/24.f);
 
     //Rounded edges
@@ -95,4 +101,23 @@ void FunctionTools::show_numbers(sf::RenderWindow &window) {
 
 void FunctionTools::scroll_scale(float delta) {
     _coordinateSystem.scroll_scale(delta);
+}
+
+void FunctionTools::more_about_function() {
+    ImGui::Text("Argument: ");
+    ImGui::SameLine();
+    ImGui::InputScalar(" ",ImGuiDataType_Float,&_x,nullptr,nullptr,"%.2f");
+
+    if (ImGui::Button("Calculate") && _selected != -1) {
+        std::string function = _coordinateSystem.all_functions()[_selected];
+        az::Function f;
+        f.start(function);
+        _f = static_cast<float>(f.calc_value(_x));
+    }
+
+    ImGui::Spacing();
+    if (!std::isnan(_f)) {
+        std::string text = "f(x) = " + std::to_string(_f);
+        ImGui::Text("%s", text.c_str());
+    }
 }
