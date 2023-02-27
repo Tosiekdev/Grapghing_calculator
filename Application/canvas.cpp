@@ -30,11 +30,13 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     // y position of lines and x position of starting vertical line
     float verticalLineY = y / 13.5f;
     float step = (graphWidth - 11.f) / 12.f;
-    float verticalStartX = x / 3.f + step;
+    float whole = std::abs(_startEndHorizontal.second - std::floor(_startEndHorizontal.second));
+    float verticalStartX = x / 3.f + (1-whole)*step;
 
     // x position of lines and y position of starting horizontal line
     float horizontalLineX = x / 3.f;
-    float horizontalStartY = y / 13.5f + step;
+    whole = std::abs(_startEndVertical.second - std::floor(_startEndVertical.second));
+    float horizontalStartY = y / 13.5f + (1+whole)*step;
 
     // line size
     sf::Vector2f verticalLineSize = sf::Vector2f(1, y - y / 13.5f);
@@ -272,7 +274,6 @@ void Canvas::shift(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vecto
 
     _startEndHorizontal.first -= xChange;
     _startEndHorizontal.second -= xChange;
-    _startEndVertical.first -= yChange;
-    _startEndVertical.second -= yChange;
-    printf("%f %f\n",_startEndVertical.first,_startEndVertical.second);
+    _startEndVertical.first += yChange;
+    _startEndVertical.second += yChange;
 }

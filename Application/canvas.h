@@ -71,7 +71,7 @@ private:
     /*
      * Vertical lines of coordinate system.
      */
-    std::array<sf::RectangleShape, 12> _verticalLines;
+    std::array<sf::RectangleShape, 13> _verticalLines;
     /**
      * Horizontal lines of coordinate system.
      */
