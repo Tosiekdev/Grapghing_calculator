@@ -25,8 +25,8 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
     title(window, scene);
     returning_button(window, deltaClock, scene);
     _tools.show_scale(window);
-    _tools.show(window, scene);
     _tools.show_numbers(window);
+    _tools.show(window, scene);
 }
 
 void Calculator::display(sf::RenderWindow &window){

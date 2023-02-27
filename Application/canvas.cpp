@@ -44,9 +44,10 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int a = 0;
     for ( auto& i:_verticalLines ) {
-        sf::Vector2f size = a == 5 ? verticalLineSizeBolded : verticalLineSize;
-        float posX = a == 5 ? verticalStartX-1 : verticalStartX;
-        sf::Color color = a == 5 ? sf::Color::Black : sf::Color(150,150,150);
+        int zero = static_cast<int>(std::abs(_startEndHorizontal.first))-1;
+        sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
+        float posX = a == zero ? verticalStartX-1 : verticalStartX;
+        sf::Color color = a == zero ? sf::Color::Black : sf::Color(150,150,150);
         i = sf::RectangleShape(size);
         i.setPosition( posX, verticalLineY);
         verticalStartX += step;
@@ -116,40 +117,49 @@ void Canvas::show_numbers(sf::RenderWindow &window) const {
 void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) const {
     for (int i = 0; i < 11; ++i) {
         auto j = static_cast<float>(i);
+        float shift = std::abs(_startEndHorizontal.first) - 6.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f,y/13.5f+j*step));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f+shift*step,y/13.5f+j*step-18.f));
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Vertical number" + std::to_string(i);
         float number = _startEndVertical.second/_scale - j/_scale;
-        std::string convertedNumber = std::to_string(number);
-        int afterComa = _scale > 1 ? 4 : 3;
-        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+afterComa);
+        if (number != 0) {
+            std::string convertedNumber = std::to_string(number);
+            int afterComa = _scale > 1 ? 4 : 3;
+            convertedNumber = convertedNumber.substr(0, convertedNumber.find('.') + afterComa);
 
-        ImGui::Begin(title.c_str(), nullptr, flags);
-        ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
-        ImGui::Text("%s", convertedNumber.c_str());
-        ImGui::PopFont();
-        ImGui::End();
+            ImGui::Begin(title.c_str(), nullptr, flags);
+            ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
+            ImGui::Text("%s", convertedNumber.c_str());
+            ImGui::PopFont();
+            ImGui::End();
+        }
     }
 }
 
 void Canvas::horizontal_numbers(float x, float step, float y) const {
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i <= _verticalLines.size(); ++i) {
         auto j = static_cast<float>(i);
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step,y/27.f+y/2.f));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step-24.f,y/13.5f+y/2.f-18.f));
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Horizontal number" + std::to_string(i);
         float number = _startEndHorizontal.first/_scale + j/_scale;
-        std::string convertedNumber = std::to_string(number);
-        int afterComa = _scale > 1 ? 4 : 3;
-        convertedNumber = convertedNumber.substr(0, convertedNumber.find('.')+afterComa);
+
+        std::string convertedNumber;
+        if (number == 0) {
+            convertedNumber = "0";
+        } else {
+            convertedNumber = std::to_string(number);
+            int afterComa = _scale > 1 ? 4 : 3;
+            convertedNumber = convertedNumber.substr(0, convertedNumber.find('.') + afterComa);
+        }
 
         ImGui::Begin(title.c_str(), nullptr, flags);
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
@@ -168,15 +178,15 @@ void Canvas::scroll_scale(float delta) {
     }
 }
 
-std::vector<std::array<std::pair<float, float>, 1000>> Canvas::evaluate_functions() {
-    std::vector<std::array<std::pair<float, float>, 1000>> functions;
+std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::evaluate_functions() {
+    std::vector<std::array<std::pair<float, float>, pointNumber>> functions;
     for (std::string &func : _allFunctions) {
         az::Function function;
         function.start(func);
-        std::array<std::pair<float, float>, 1000> array;
-        for (int i = 0; i < 1000; ++i) {
+        std::array<std::pair<float, float>, pointNumber> array;
+        for (int i = 0; i < pointNumber; ++i) {
             auto j = static_cast<float>(i);
-            float x = _startEndHorizontal.first / _scale + 12.f / 1000.f / _scale * j;
+            float x = _startEndHorizontal.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
             float y;
             try {
                 y = static_cast<float>(function.calc_value(x));
@@ -212,7 +222,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
     int n = 0;
     for (const auto &i:functionsValues) {
         sf::VertexArray plot(sf::TriangleStrip);
-        for (const auto &point:i) {
+        for (auto point : i) {
             if (!isnanf(point.second)) {
                 //get points
                 float x = point.first;
@@ -228,10 +238,16 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
                 x += b;
                 y += z;
 
-                sf::Vertex top = sf::Vertex(sf::Vector2f(x,y+2),_functionColors[n%7]);
-                sf::Vertex bottom = sf::Vertex(sf::Vector2f(x,y-2),_functionColors[n%7]);
-                plot.append(top);
+                sf::Vertex top, bottom;
+                auto color = _functionColors[n % 7];
+
+                float lineThickness = 2.f;
+
+                top = sf::Vertex(sf::Vector2f(x, y + lineThickness), color);
+                bottom = sf::Vertex(sf::Vector2f(x, y - lineThickness), color);
+
                 plot.append(bottom);
+                plot.append(top);
             }
         }
         n++;

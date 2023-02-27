@@ -27,7 +27,7 @@ void Menu::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scen
     menuOptions(window, deltaClock, scene);
     title(window, scene);
 
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 }
 
 void Menu::display(sf::RenderWindow &window){

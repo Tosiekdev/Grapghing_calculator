@@ -45,6 +45,7 @@ public:
     void scroll_scale(float delta);
 
 private:
+    static constexpr size_t pointNumber = 1000;
     /**
      * Defines scale of plot.
      */
@@ -64,7 +65,7 @@ private:
     /*
      * Vertical lines of coordinate system.
      */
-    std::array<sf::RectangleShape, 11> _verticalLines;
+    std::array<sf::RectangleShape, 12> _verticalLines;
     /**
      * Horizontal lines of coordinate system.
      */
@@ -110,7 +111,7 @@ private:
      * Calculates value of all functions on visible interval.
      * @return 1000 coordinates of points which are subset of function.
      */
-    std::vector<std::array<std::pair<float,float>, 1000>> evaluate_functions();
+    std::vector<std::array<std::pair<float, float>, pointNumber>> evaluate_functions();
 
     /**
      * Calculates positions of points to draw graph.
