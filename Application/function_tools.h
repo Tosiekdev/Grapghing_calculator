@@ -51,6 +51,14 @@ public:
      */
     void add_function();
 
+    /**
+     * Shifts graph.
+     * @param window Application's window
+     * @param oldPosition Old position of the mouse.
+     * @param newPosition New position of the mouse.
+     */
+    void shift_graph(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vector2i newPosition);
+
 private:
     char _input[1024]="";
     Canvas _coordinateSystem;

@@ -57,9 +57,10 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int b = 0;
     for (auto& j:_horizontalLines){
-        sf::Vector2f size = b == 4 ? horizontalLineSizeBolded : horizontalLineSize;
-        float posY = b == 4 ? horizontalStartY-1 : horizontalStartY;
-        sf::Color color = b == 4 ? sf::Color::Black : sf::Color(150,150,150);
+        int zero = static_cast<int>(std::abs(_startEndVertical.second))-1;
+        sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
+        float posY = b == zero ? horizontalStartY-1 : horizontalStartY;
+        sf::Color color = b == zero ? sf::Color::Black : sf::Color(150,150,150);
         j = sf::RectangleShape(size);
         j.setPosition(horizontalLineX, posY);
         horizontalStartY += step;
@@ -143,9 +144,10 @@ void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) co
 void Canvas::horizontal_numbers(float x, float step, float y) const {
     for (int i = 0; i <= _verticalLines.size(); ++i) {
         auto j = static_cast<float>(i);
+        float shift = std::abs(_startEndVertical.second)-5.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step-24.f,y/13.5f+y/2.f-18.f));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step-24.f,y/13.5f+y/2.f-18.f+shift*step));
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
@@ -255,4 +257,22 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
     }
 
     return returns;
+}
+
+void Canvas::shift(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
+    //get window size
+    auto size = window.getSize();
+    //scaling factor to transform mouse change coordination to number between 0 and 12 for x-axis and 0 and 10 for y-axis
+    auto scale = static_cast<float>(size.y)-static_cast<float>(size.y)/13.5f;
+
+    auto changeOfPosition = newPosition - oldPosition;
+
+    float xChange = static_cast<float>(changeOfPosition.x)/scale*12;
+    float yChange = static_cast<float>(changeOfPosition.y)/scale*10;
+
+    _startEndHorizontal.first -= xChange;
+    _startEndHorizontal.second -= xChange;
+    _startEndVertical.first -= yChange;
+    _startEndVertical.second -= yChange;
+    printf("%f %f\n",_startEndVertical.first,_startEndVertical.second);
 }

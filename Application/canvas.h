@@ -44,6 +44,12 @@ public:
      */
     void scroll_scale(float delta);
 
+    /**
+     * Shifts coordinate system
+     * @param window application's window
+     */
+    void shift(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vector2i newPosition);
+
 private:
     static constexpr size_t pointNumber = 1000;
     /**

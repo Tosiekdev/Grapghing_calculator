@@ -18,6 +18,8 @@ class Calculator : public Window{
       */
      FunctionTools _tools;
 
+     sf::Vector2i _bufMousePos = sf::Vector2i(-1,-1);
+
 public:
     /**
      * Function to handle events in calculator.

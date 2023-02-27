@@ -16,11 +16,23 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
         if (e_.type == sf::Event::MouseWheelScrolled) {
             _tools.scroll_scale(e_.mouseWheelScroll.delta);
         }
+        if (e_.type == sf::Event::MouseButtonPressed) {
+            _bufMousePos = sf::Mouse::getPosition();
+        }
+        if (e_.type == sf::Event::MouseButtonReleased) {
+            _bufMousePos = sf::Vector2i(-1, -1);
+        }
     }
 }
 
 void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
     ImGui::SFML::Update(window, deltaClock.restart());
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        auto mousePos = sf::Mouse::getPosition();
+        _tools.shift_graph(window, _bufMousePos, mousePos);
+        _bufMousePos = mousePos;
+    }
 
     title(window, scene);
     returning_button(window, deltaClock, scene);

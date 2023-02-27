@@ -125,3 +125,7 @@ void FunctionTools::add_function() {
         _coordinateSystem.all_functions().emplace_back(_input);
     }
 }
+
+void FunctionTools::shift_graph(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
+    _coordinateSystem.shift(window, oldPosition, newPosition);
+}
