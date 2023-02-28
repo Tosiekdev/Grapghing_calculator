@@ -29,7 +29,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     // y position of lines and x position of starting vertical line
     float verticalLineY = y / 13.5f;
-    float step = (graphWidth - 11.f) / 12.f;
+    float step = graphWidth / 12.f;
     float whole = std::abs(_startEndHorizontal.second - std::floor(_startEndHorizontal.second));
     float verticalStartX = x / 3.f + (1-whole)*step;
 
@@ -46,7 +46,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int a = 0;
     for ( auto& i:_verticalLines ) {
-        int zero = static_cast<int>(std::ceil(std::abs(_startEndHorizontal.first)))-1;
+        int zero = static_cast<int>(std::ceil(-_startEndHorizontal.first))-1;
         sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
         float posX = a == zero ? verticalStartX-1 : verticalStartX;
         sf::Color color = a == zero ? sf::Color::Black : sf::Color(150,150,150);
@@ -59,7 +59,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int b = 0;
     for (auto& j:_horizontalLines){
-        int zero = static_cast<int>(std::abs(_startEndVertical.second));
+        int zero = static_cast<int>(std::floor(_startEndVertical.second));
         sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
         float posY = b == zero ? horizontalStartY-1 : horizontalStartY;
         sf::Color color = b == zero ? sf::Color::Black : sf::Color(150,150,150);
@@ -93,12 +93,13 @@ void Canvas::show_scale(sf::RenderWindow &window) {
     ImGui::End();
 
     // Limitation for scale
+    /*
     if (_scale > 10.f) {
         _scale = 10.f;
     }
     if (_scale < 0.01f) {
         _scale = 0.01f;
-    }
+    }*/
 }
 
 void Canvas::show_numbers(sf::RenderWindow &window) const {
@@ -108,7 +109,7 @@ void Canvas::show_numbers(sf::RenderWindow &window) const {
     // width of the coordinate system
     float graphWidth = x - x / 3.f;
 
-    float step = (graphWidth - 11.f) / 12.f;
+    float step = graphWidth / 12.f;
 
     // vertical numbers
     vertical_numbers(x, graphWidth, step, y);
@@ -214,7 +215,9 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
 
     // calculating graph width
     auto width = static_cast<float>(window.getSize().x);
+    auto height = static_cast<float>(window.getSize().y);
     width = width - width / 3.f;
+    float step = width / 12.f;
 
     // scaling factor
     float a = width / 12.f * _scale;
@@ -223,7 +226,9 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow &window) {
     float b = width / 2.f;
 
     // vertical shift
-    float z = _horizontalLines[4].getPosition().y+1;
+    float defaultZero = height/13.5f+5*step;
+    float shift = step*(_startEndVertical.first+_startEndVertical.second)/2;
+    float z = defaultZero + shift;
 
     auto functionsValues = evaluate_functions();
 
