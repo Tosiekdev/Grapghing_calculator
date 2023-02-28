@@ -93,13 +93,9 @@ void Canvas::show_scale(sf::RenderWindow &window) {
     ImGui::End();
 
     // Limitation for scale
-    /*
-    if (_scale > 10.f) {
-        _scale = 10.f;
-    }
     if (_scale < 0.01f) {
         _scale = 0.01f;
-    }*/
+    }
 }
 
 void Canvas::show_numbers(sf::RenderWindow &window) const {
@@ -126,7 +122,14 @@ void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) co
         float shift = std::abs(_startEndHorizontal.first) - 6.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f+shift*step,y/13.5f+(j+fraction)*step-18.f));
+        auto defaultNext = ImVec2(x/3.f+graphWidth/2.f+shift*step,y/13.5f+(j+fraction)*step-18.f);
+        if (_startEndHorizontal.first >= 0) {
+            defaultNext = ImVec2(x/3.f,y/13.5f+(j+fraction)*step-18.f);
+        }
+        if (_startEndHorizontal.second <= 0.5) {
+            defaultNext = ImVec2(x-70.f,y/13.5f+(j+fraction)*step-18.f);
+        }
+        ImGui::SetNextWindowPos(defaultNext);
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
@@ -154,7 +157,14 @@ void Canvas::horizontal_numbers(float x, float step, float y) const {
         float shift = std::abs(_startEndVertical.second)-5.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+(j-fraction)*step-24.f,y/13.5f+y/2.f-18.f+shift*step));
+        auto defaultNext = ImVec2(x/3.f+(j-fraction)*step-24.f,y/13.5f+y/2.f-18.f+shift*step);
+        if (_startEndVertical.second <= 0) {
+            defaultNext = ImVec2(x/3.f+(j-fraction)*step-24.f,y/13.5f);
+        }
+        if (_startEndVertical.first >= -1) {
+            defaultNext = ImVec2(x/3.f+(j-fraction)*step-24.f,y-32.f);
+        }
+        ImGui::SetNextWindowPos(defaultNext);
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
