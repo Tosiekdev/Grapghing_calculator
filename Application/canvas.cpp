@@ -36,7 +36,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     // x position of lines and y position of starting horizontal line
     float horizontalLineX = x / 3.f;
     whole = std::abs(_startEndVertical.second - std::floor(_startEndVertical.second));
-    float horizontalStartY = y / 13.5f + (1+whole)*step;
+    float horizontalStartY = y / 13.5f + whole*step;
 
     // line size
     sf::Vector2f verticalLineSize = sf::Vector2f(1, y - y / 13.5f);
@@ -46,7 +46,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int a = 0;
     for ( auto& i:_verticalLines ) {
-        int zero = static_cast<int>(std::abs(_startEndHorizontal.first))-1;
+        int zero = static_cast<int>(std::ceil(std::abs(_startEndHorizontal.first)))-1;
         sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
         float posX = a == zero ? verticalStartX-1 : verticalStartX;
         sf::Color color = a == zero ? sf::Color::Black : sf::Color(150,150,150);
@@ -59,7 +59,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int b = 0;
     for (auto& j:_horizontalLines){
-        int zero = static_cast<int>(std::abs(_startEndVertical.second))-1;
+        int zero = static_cast<int>(std::abs(_startEndVertical.second));
         sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
         float posY = b == zero ? horizontalStartY-1 : horizontalStartY;
         sf::Color color = b == zero ? sf::Color::Black : sf::Color(150,150,150);
@@ -118,17 +118,19 @@ void Canvas::show_numbers(sf::RenderWindow &window) const {
 }
 
 void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) const {
+    float whole, fraction;
+    fraction = std::modf(_startEndVertical.second, &whole);
     for (int i = 0; i < 11; ++i) {
         auto j = static_cast<float>(i);
         float shift = std::abs(_startEndHorizontal.first) - 6.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f+shift*step,y/13.5f+j*step-18.f));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+graphWidth/2.f+shift*step,y/13.5f+(j+fraction)*step-18.f));
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Vertical number" + std::to_string(i);
-        float number = _startEndVertical.second/_scale - j/_scale;
+        float number = whole/_scale - j/_scale;
         if (number != 0) {
             std::string convertedNumber = std::to_string(number);
             int afterComa = _scale > 1 ? 4 : 3;
@@ -144,17 +146,19 @@ void Canvas::vertical_numbers(float x, float graphWidth, float step, float y) co
 }
 
 void Canvas::horizontal_numbers(float x, float step, float y) const {
+    float whole, fraction;
+    fraction = std::modf(_startEndHorizontal.first, &whole);
     for (int i = 0; i <= _verticalLines.size(); ++i) {
         auto j = static_cast<float>(i);
         float shift = std::abs(_startEndVertical.second)-5.f;
 
         ImGui::SetNextWindowSize(ImVec2(0,0));
-        ImGui::SetNextWindowPos(ImVec2(x/3.f+j*step-24.f,y/13.5f+y/2.f-18.f+shift*step));
+        ImGui::SetNextWindowPos(ImVec2(x/3.f+(j-fraction)*step-24.f,y/13.5f+y/2.f-18.f+shift*step));
 
         int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Horizontal number" + std::to_string(i);
-        float number = _startEndHorizontal.first/_scale + j/_scale;
+        float number = whole/_scale + j/_scale;
 
         std::string convertedNumber;
         if (number == 0) {
