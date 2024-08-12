@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.23)
 project(graphing_calculator)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
-set(SFML_INCLUDE_DIR "../SFML-2.5.1/include")
-set(SFML_LIBRARY_DIR "../SFML-2.5.1/lib")
-set(SFML_DIR "../SFML-2.5.1/lib/cmake/SFML")
+set(SFML_INCLUDE_DIR "~/Documents/SFML-2.5.1/include")
+set(SFML_LIBRARY_DIR "~/Documents/SFML-2.5.1/lib")
+set(SFML_DIR "~/Documents/SFML-2.5.1/lib/cmake/SFML")
 
 link_directories(SFML_LIBRARY_DIR)
 include_directories(SFML_INCLUDE_DIR ./AZ-math ./imgui ./imgui-sfml)
@@ -23,6 +23,7 @@ add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.
         Application/calculator.cpp Application/calculator.h
         Application/manual.cpp Application/manual.h
         ./AZ-math/azmath.cpp
+        imgui-sfml/imgui-SFML.h
         imgui/imgui.cpp imgui/imgui_widgets.cpp imgui/imgui_draw.cpp imgui/imgui_tables.cpp imgui-sfml/imgui-SFML.cpp
         imgui/imgui_demo.cpp
         Application/useful_functions.h Application/useful_functions.cpp
