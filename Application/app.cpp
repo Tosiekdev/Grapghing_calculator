@@ -15,9 +15,9 @@ void App::start(){
     sf::Clock deltaClock;
     ImGui::SFML::Init(window_);
     ImGuiIO &io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 32.f);
-    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 64.f);
-    io.Fonts->AddFontFromFileTTF("Fonts/KdamThmorPro-Regular.ttf", 24.f);
+    io.Fonts->AddFontFromFileTTF(fontPath, 32.f);
+    io.Fonts->AddFontFromFileTTF(fontPath, 64.f);
+    io.Fonts->AddFontFromFileTTF(fontPath, 24.f);
     ImGui::SFML::UpdateFontTexture();
     while(window_.isOpen()){
         switch (current_){

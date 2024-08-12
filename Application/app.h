@@ -38,6 +38,8 @@ class App{
      */
     sf::RenderWindow window_;
 
+    static constexpr const char* fontPath = "../Fonts/OpenSans-VariableFont_wdth,wght.ttf";
+
 
 public:
     /**
