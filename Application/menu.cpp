@@ -4,6 +4,9 @@
 
 #include "menu.h"
 
+#include "imgui-SFML.h"
+#include "imgui.h"
+
 Menu::Menu() {
     is_focused = false;
 }

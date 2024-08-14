@@ -4,6 +4,9 @@
 
 #include "window.h"
 
+#include "imgui.h"
+#include "useful_functions.h"
+
 void Window::returning_button(sf::RenderWindow& window, sf::Clock& deltaClock, Scene& scene) {
     //Getting window's size for scaling
     auto size = window.getSize();

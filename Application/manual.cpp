@@ -4,6 +4,9 @@
 
 #include "manual.h"
 
+#include "imgui-SFML.h"
+#include "imgui.h"
+
 void Manual::handle_events(sf::RenderWindow& window, Scene& scene) {
     while (window.pollEvent(e_)) {
         ImGui::SFML::ProcessEvent(window, e_);

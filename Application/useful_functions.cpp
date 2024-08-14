@@ -4,6 +4,8 @@
 
 #include "useful_functions.h"
 
+#include "imgui.h"
+
 void text_centered(const std::string& text) {
     auto windowWidth = ImGui::GetWindowSize().x;
     auto textWidth = ImGui::CalcTextSize(text.c_str()).x;

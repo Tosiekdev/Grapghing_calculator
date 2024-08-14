@@ -13,6 +13,9 @@ enum Scene { MENU, CALCULATOR, INSTRUCTION };
  * Virtual class. Is used as a template for app scenes.
  */
 class Window {
+public:
+ virtual ~Window() = default;
+
 protected:
  /**
   * Event to handling.
@@ -22,7 +25,7 @@ protected:
  /**
   * To tell if any of buttons is focused_.
   */
- bool is_focused;
+ bool is_focused{};
 
  /**
   * Cursor used in menu.

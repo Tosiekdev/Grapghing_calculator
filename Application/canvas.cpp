@@ -4,6 +4,8 @@
 
 #include "canvas.h"
 
+#include "imgui.h"
+
 void Canvas::draw(sf::RenderWindow& window) {
     set_lines(window);
 
