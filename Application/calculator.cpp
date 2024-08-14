@@ -4,7 +4,7 @@
 
 #include "calculator.h"
 
-void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
+void Calculator::handle_events(sf::RenderWindow& window, Scene& scene) {
     while (window.pollEvent(e_)) {
         ImGui::SFML::ProcessEvent(window, e_);
         if (e_.type == sf::Event::KeyPressed) {
@@ -25,7 +25,7 @@ void Calculator::handle_events(sf::RenderWindow &window, Scene &scene) {
     }
 }
 
-void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene &scene) {
+void Calculator::do_stuff(sf::RenderWindow& window, sf::Clock& deltaClock, Scene& scene) {
     ImGui::SFML::Update(window, deltaClock.restart());
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -41,7 +41,7 @@ void Calculator::do_stuff(sf::RenderWindow &window, sf::Clock &deltaClock, Scene
     _tools.show(window, scene);
 }
 
-void Calculator::display(sf::RenderWindow &window){
+void Calculator::display(sf::RenderWindow& window) {
     window.clear(sf::Color::White);
 
     _tools.show_canvas(window);

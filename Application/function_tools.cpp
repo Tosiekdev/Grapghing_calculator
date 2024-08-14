@@ -11,8 +11,8 @@ void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     auto y = static_cast<float>(size.y);
 
     // Proper positioning
-    ImGui::SetNextWindowPos(ImVec2(0,y/13.5f));
-    ImGui::SetNextWindowSize(ImVec2(x/3.f,y-y/13.5f));
+    ImGui::SetNextWindowPos(ImVec2(0, y / 13.5f));
+    ImGui::SetNextWindowSize(ImVec2(x / 3.f, y - y / 13.5f));
 
     //Color theme
     ImGui::StyleColorsLight();
@@ -46,13 +46,11 @@ void FunctionTools::text_input() {
 }
 
 void FunctionTools::functions_list() {
-    if (ImGui::TreeNode("Functions"))
-    {
+    if (ImGui::TreeNode("Functions")) {
         //static int selected = -1;
         int n = 0;
         //list all function
-        for (std::string& buf:_coordinateSystem.all_functions())
-        {
+        for (std::string& buf: _coordinateSystem.all_functions()) {
             if (ImGui::Selectable(buf.c_str(), _selected == n)) {
                 _selected = n;
             }
@@ -69,7 +67,7 @@ void FunctionTools::functions_list() {
 }
 
 void FunctionTools::plot_button(float x, float y) {
-    ImVec2 buttonSize = ImVec2(x/12.f,y/24.f);
+    ImVec2 buttonSize = ImVec2(x / 12.f, y / 24.f);
 
     //Rounded edges
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
@@ -81,15 +79,15 @@ void FunctionTools::plot_button(float x, float y) {
     ImGui::PopStyleVar();
 }
 
-void FunctionTools::show_canvas(sf::RenderWindow &window) {
+void FunctionTools::show_canvas(sf::RenderWindow& window) {
     _coordinateSystem.draw(window);
 }
 
-void FunctionTools::show_scale(sf::RenderWindow &window) {
+void FunctionTools::show_scale(sf::RenderWindow& window) {
     _coordinateSystem.show_scale(window);
 }
 
-void FunctionTools::show_numbers(sf::RenderWindow &window) {
+void FunctionTools::show_numbers(sf::RenderWindow& window) {
     _coordinateSystem.show_numbers(window);
 }
 
@@ -100,7 +98,7 @@ void FunctionTools::scroll_scale(float delta) {
 void FunctionTools::more_about_function() {
     ImGui::Text("Argument: ");
     ImGui::SameLine();
-    ImGui::InputScalar(" ",ImGuiDataType_Float,&_x,nullptr,nullptr,"%.2f");
+    ImGui::InputScalar(" ", ImGuiDataType_Float, &_x, nullptr, nullptr, "%.2f");
 
     if (ImGui::Button("Calculate") && _selected != -1) {
         std::string function = _coordinateSystem.all_functions()[_selected];
@@ -108,7 +106,7 @@ void FunctionTools::more_about_function() {
         f.start(function);
         try {
             _f = static_cast<float>(f.calc_value(_x));
-        } catch (std::exception &e) {
+        } catch (std::exception& e) {
             _f = nanf("");
         }
     }
@@ -126,6 +124,6 @@ void FunctionTools::add_function() {
     }
 }
 
-void FunctionTools::shift_graph(sf::RenderWindow &window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
+void FunctionTools::shift_graph(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
     _coordinateSystem.shift(window, oldPosition, newPosition);
 }

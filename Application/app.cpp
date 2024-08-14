@@ -4,23 +4,23 @@
 
 #include "app.h"
 
-App::App(){
+App::App() {
     current_ = MENU;
     window_.create(sf::VideoMode::getFullscreenModes()[0], "az-math", sf::Style::Fullscreen);
     window_.setFramerateLimit(60);
     window_.setMouseCursorGrabbed(false);
 }
 
-void App::start(){
+void App::start() {
     sf::Clock deltaClock;
     ImGui::SFML::Init(window_);
-    ImGuiIO &io = ImGui::GetIO();
+    ImGuiIO& io = ImGui::GetIO();
     io.Fonts->AddFontFromFileTTF(fontPath, 32.f);
     io.Fonts->AddFontFromFileTTF(fontPath, 64.f);
     io.Fonts->AddFontFromFileTTF(fontPath, 24.f);
     ImGui::SFML::UpdateFontTexture();
-    while(window_.isOpen()){
-        switch (current_){
+    while (window_.isOpen()) {
+        switch (current_) {
             case MENU:
                 menu_.handle_events(window_, current_);
                 menu_.do_stuff(window_, deltaClock, current_);

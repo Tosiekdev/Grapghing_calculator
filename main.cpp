@@ -1,6 +1,6 @@
 #include "Application/app.h"
 
-int main(){
+int main() {
     App app;
     app.start();
     return 0;

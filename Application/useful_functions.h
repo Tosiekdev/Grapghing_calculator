@@ -5,7 +5,6 @@
 #ifndef GRAPHING_CALCULATOR_USEFUL_FUNCTIONS_H
 #define GRAPHING_CALCULATOR_USEFUL_FUNCTIONS_H
 
-#include "imgui.h"
 #include "imgui-SFML.h"
 
 void text_centered(const std::string& text);
