@@ -4,6 +4,8 @@
 
 #include "app.h"
 
+#include <iostream>
+
 App::App() {
     current_ = MENU;
     window_.create(sf::VideoMode::getFullscreenModes()[0], "az-math", sf::Style::Fullscreen);
@@ -13,12 +15,18 @@ App::App() {
 
 void App::start() {
     sf::Clock deltaClock;
-    ImGui::SFML::Init(window_);
-    ImGuiIO& io = ImGui::GetIO();
+    if (!ImGui::SFML::Init(window_)) {
+        std::cerr << "Failed to initialize ImGui Application" << std::endl;
+        std::abort();
+    }
+    const ImGuiIO& io = ImGui::GetIO();
     io.Fonts->AddFontFromFileTTF(fontPath, 32.f);
     io.Fonts->AddFontFromFileTTF(fontPath, 64.f);
     io.Fonts->AddFontFromFileTTF(fontPath, 24.f);
-    ImGui::SFML::UpdateFontTexture();
+    if (!ImGui::SFML::UpdateFontTexture()) {
+        std::cerr << "Failed to update font" << std::endl;
+        std::abort();
+    }
     while (window_.isOpen()) {
         switch (current_) {
             case MENU:

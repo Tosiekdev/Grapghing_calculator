@@ -58,6 +58,7 @@ public:
  /**
   * Virtual function to handling events.
   * @param window Window from events are handled.
+  * @param scene Current application scene.
   */
  virtual void handle_events(sf::RenderWindow& window, Scene& scene) =0;
 
