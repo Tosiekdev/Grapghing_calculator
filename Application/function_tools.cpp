@@ -101,19 +101,21 @@ void FunctionTools::more_about_function() {
     ImGui::InputScalar(" ", ImGuiDataType_Float, &_x, nullptr, nullptr, "%.2f");
 
     if (ImGui::Button("Calculate") && _selected != -1) {
-        std::string function = _coordinateSystem.all_functions()[_selected];
-        az::Function f;
-        f.start(function);
-        try {
-            _f = static_cast<float>(f.calc_value(_x));
-        } catch (std::exception& e) {
-            _f = nanf("");
-        }
+        std::string const& function = _coordinateSystem.all_functions()[_selected];
+        auto const f = az::parse_expression(function);
+        _f = static_cast<float>(f->evaluate(_x));
+        // az::Function f;
+        // f.start(function);
+        // try {
+        //     _f = static_cast<float>(f.calc_value(_x));
+        // } catch (std::exception& e) {
+        //     _f = nanf("");
+        // }
     }
 
     ImGui::Spacing();
     if (!std::isnan(_f)) {
-        std::string text = "f(x) = " + std::to_string(_f);
+        std::string const text = "f(x) = " + std::to_string(_f);
         ImGui::Text("%s", text.c_str());
     }
 }

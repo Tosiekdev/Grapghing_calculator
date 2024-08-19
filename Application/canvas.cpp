@@ -199,23 +199,23 @@ void Canvas::scroll_scale(float delta) {
     }
 }
 
-std::vector<std::array<std::pair<float, float>, Canvas::pointNumber> > Canvas::evaluate_functions() {
-    std::vector<std::array<std::pair<float, float>, pointNumber> > functions;
+std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::evaluate_functions() {
+    std::vector<std::array<std::pair<float, float>, pointNumber>> functions;
     for (std::string& func: _allFunctions) {
-        az::Function function;
-        function.start(func);
+        // az::Function function;
+        auto function = az::parse_expression(func);
+        // function.start(func);
         std::array<std::pair<float, float>, pointNumber> array;
         for (int i = 0; i < pointNumber; ++i) {
-            auto j = static_cast<float>(i);
+            auto const j = static_cast<float>(i);
             float x = _startEndHorizontal.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
-            float y;
-            try {
-                y = static_cast<float>(function.calc_value(x));
-            } catch (az::OutOfDomain& e) {
-                y = std::nanf("");
-            }
-            std::pair<float, float> point = std::make_pair(x, y);
-            array[i] = point;
+            float y = function->evaluate(x);
+            // try {
+            //     y = static_cast<float>(function.calc_value(x));
+            // } catch (az::OutOfDomain& e) {
+            //     y = std::nanf("");
+            // }
+            array[i] = std::make_pair(x, y);
         }
         functions.push_back(array);
     }

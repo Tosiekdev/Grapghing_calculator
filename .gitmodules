@@ -1,6 +1,3 @@
-[submodule "AZ-math"]
-	path = AZ-math
-	url = https://github.com/Tosiekdev/AZ-math
 [submodule "imgui"]
 	path = imgui
 	url = https://github.com/ocornut/imgui
