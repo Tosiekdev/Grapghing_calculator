@@ -53,23 +53,23 @@ void Manual::help(sf::RenderWindow& window, Scene& scene) {
     constexpr int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
     ImGui::Begin("Function tools", nullptr, flags);
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
-    ImGui::Text("This is graphing calculator(probably).");
+    ImGui::Text("This is graphing calculator (probably).");
     ImGui::Text("It offers various types of functions such as:");
     ImGui::BulletText("trigonometric functions");
-    ImGui::BulletText("cyclometric functions,");
+    // ImGui::BulletText("cyclometric functions,");
     ImGui::BulletText("exponetial functions,");
-    ImGui::BulletText("logarithmic functions,");
+    // ImGui::BulletText("logarithmic functions,");
     ImGui::BulletText("polynomials.");
     ImGui::Text("To make everything looks and works fine remember:");
     ImGui::BulletText(
         "two arguments symbols (*,^,/) like to work other than \n BODMAS tells so to be sure use brackets,");
     ImGui::BulletText("^ means power, * means multiplication (remember to always \n use it), / means division,");
     ImGui::BulletText("2x won't work,");
-    ImGui::BulletText("pi in function is treated as 3.1415926563589793,");
-    ImGui::BulletText("e is treated as Euler's number (i don't remember digits),");
-    ImGui::BulletText("this two above doesn't work as an argument.");
+    // ImGui::BulletText("pi in function is treated as 3.1415926563589793,");
+    // ImGui::BulletText("e is treated as Euler's number (i don't remember digits),");
+    // ImGui::BulletText("this two above doesn't work as an argument.");
     ImGui::Text("Have a good time playing with it, don't broke everything.");
-    ImGui::Text("Bad usage can cause freeze.");
+    ImGui::Text("Bad usage can cause freeze (probably).");
     ImGui::PopFont();
     ImGui::End();
 }
