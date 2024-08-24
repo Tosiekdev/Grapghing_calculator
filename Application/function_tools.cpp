@@ -104,13 +104,6 @@ void FunctionTools::more_about_function() {
         std::string const& function = _coordinateSystem.all_functions()[_selected];
         auto const f = az::parse_expression(function);
         _f = static_cast<float>(f->evaluate(_x));
-        // az::Function f;
-        // f.start(function);
-        // try {
-        //     _f = static_cast<float>(f.calc_value(_x));
-        // } catch (std::exception& e) {
-        //     _f = nanf("");
-        // }
     }
 
     ImGui::Spacing();
