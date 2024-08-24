@@ -29,7 +29,7 @@ void Calculator::do_stuff(sf::RenderWindow& window, sf::Clock& deltaClock, Scene
     ImGui::SFML::Update(window, deltaClock.restart());
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        auto mousePos = sf::Mouse::getPosition();
+        const auto mousePos = sf::Mouse::getPosition();
         _tools.shift_graph(window, _bufMousePos, mousePos);
         _bufMousePos = mousePos;
     }

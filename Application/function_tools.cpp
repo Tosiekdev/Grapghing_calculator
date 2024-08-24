@@ -6,9 +6,9 @@
 
 void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     //Getting window's size for scaling
-    auto size = window.getSize();
-    auto x = static_cast<float>(size.x);
-    auto y = static_cast<float>(size.y);
+    const auto size = window.getSize();
+    const auto x = static_cast<float>(size.x);
+    const auto y = static_cast<float>(size.y);
 
     // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(0, y / 13.5f));
@@ -17,13 +17,16 @@ void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     //Color theme
     ImGui::StyleColorsLight();
 
-    int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+    constexpr int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
 
     ImGui::Begin("Function tools", nullptr, flags);
 
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
 
     text_input();
+    if (!_errorMsg.empty()) {
+        ImGui::Text(_errorMsg.c_str());
+    }
     ImGui::Spacing();
     plot_button(x, y);
     ImGui::Spacing();
@@ -46,7 +49,7 @@ void FunctionTools::text_input() {
 }
 
 void FunctionTools::functions_list() {
-    if (ImGui::TreeNode("Functions")) {
+    if (ImGui::TreeNodeEx("Functions", ImGuiTreeNodeFlags_DefaultOpen)) {
         //static int selected = -1;
         int n = 0;
         //list all function
@@ -66,8 +69,8 @@ void FunctionTools::functions_list() {
     }
 }
 
-void FunctionTools::plot_button(float x, float y) {
-    ImVec2 buttonSize = ImVec2(x / 12.f, y / 24.f);
+void FunctionTools::plot_button(const float x, const float y) {
+    const auto buttonSize = ImVec2(x / 12.f, y / 24.f);
 
     //Rounded edges
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
@@ -87,11 +90,11 @@ void FunctionTools::show_scale(sf::RenderWindow& window) {
     _coordinateSystem.show_scale(window);
 }
 
-void FunctionTools::show_numbers(sf::RenderWindow& window) {
+void FunctionTools::show_numbers(sf::RenderWindow& window) const {
     _coordinateSystem.show_numbers(window);
 }
 
-void FunctionTools::scroll_scale(float delta) {
+void FunctionTools::scroll_scale(const float delta) {
     _coordinateSystem.scroll_scale(delta);
 }
 
@@ -114,11 +117,14 @@ void FunctionTools::more_about_function() {
 }
 
 void FunctionTools::add_function() {
-    if (_input[0] != 0 && _input[0] != ' ') {
+    if (az::parse_expression(_input)) {
         _coordinateSystem.all_functions().emplace_back(_input);
+        _errorMsg.clear();
+    } else {
+        _errorMsg = "Invalid expression!";
     }
 }
 
-void FunctionTools::shift_graph(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
+void FunctionTools::shift_graph(sf::RenderWindow& window, const sf::Vector2i oldPosition, const sf::Vector2i newPosition) {
     _coordinateSystem.shift(window, oldPosition, newPosition);
 }
