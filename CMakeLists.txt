@@ -7,8 +7,13 @@ set(SFML_INCLUDE_DIR "~/Documents/SFML-2.5.1/include")
 set(SFML_LIBRARY_DIR "~/Documents/SFML-2.5.1/lib")
 set(SFML_DIR "~/Documents/SFML-2.5.1/lib/cmake/SFML")
 
+include(FetchContent)
+FetchContent_Declare(lexy URL https://lexy.foonathan.net/download/lexy-src.zip)
+
+FetchContent_MakeAvailable(lexy)
+
 link_directories(SFML_LIBRARY_DIR)
-include_directories(SFML_INCLUDE_DIR ./AZ-math ./imgui ./imgui-sfml)
+include_directories(SFML_INCLUDE_DIR ./function-parser/include ./imgui ./imgui-sfml)
 
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 
@@ -22,7 +27,6 @@ add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.
         Application/menu.h Application/window.cpp Application/window.h
         Application/calculator.cpp Application/calculator.h
         Application/manual.cpp Application/manual.h
-        ./AZ-math/azmath.cpp
         imgui-sfml/imgui-SFML.h
         imgui/imgui.cpp imgui/imgui_widgets.cpp imgui/imgui_draw.cpp imgui/imgui_tables.cpp imgui-sfml/imgui-SFML.cpp
         imgui/imgui_demo.cpp
@@ -33,4 +37,4 @@ add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.
 
 include(FindPkgConfig)
 find_package (Threads REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} -lGL sfml-graphics sfml-window sfml-system)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} -lGL sfml-graphics sfml-window sfml-system foonathan::lexy)

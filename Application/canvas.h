@@ -10,7 +10,8 @@
 #include <array>
 #include <utility>
 
-#include "azmath.h"
+#include <az_math/function_parser.hpp>
+
 #include "imgui-SFML.h"
 
 class Canvas {
