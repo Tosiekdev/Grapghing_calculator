@@ -22,7 +22,7 @@ void Window::returning_button(sf::RenderWindow& window, sf::Clock& deltaClock, S
     //Rounded edges
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 
-    int flags = ImGuiWindowFlags_NoTitleBar
+    constexpr int flags = ImGuiWindowFlags_NoTitleBar
                 | ImGuiWindowFlags_NoResize
                 | ImGuiWindowFlags_NoBackground;
     ImGui::Begin("Returning Button", nullptr, flags);
@@ -41,9 +41,9 @@ void Window::returning_button(sf::RenderWindow& window, sf::Clock& deltaClock, S
 
 void Window::title(sf::RenderWindow& window, Scene& scene) {
     //Getting window's size for scaling
-    auto size = window.getSize();
-    auto x = static_cast<float>(size.x);
-    auto y = static_cast<float>(size.y);
+    const auto size = window.getSize();
+    const auto x = static_cast<float>(size.x);
+    const auto y = static_cast<float>(size.y);
 
     // Proper positioning
     ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -55,7 +55,7 @@ void Window::title(sf::RenderWindow& window, Scene& scene) {
     //Color theme
     ImGui::StyleColorsClassic();
 
-    int flags = ImGuiWindowFlags_NoTitleBar
+    constexpr int flags = ImGuiWindowFlags_NoTitleBar
                 | ImGuiWindowFlags_NoResize
                 | ImGuiWindowFlags_NoBringToFrontOnFocus;
     ImGui::Begin("Title bar", nullptr, flags);

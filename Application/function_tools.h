@@ -38,7 +38,7 @@ public:
   * Displays numbers on coordinate system
   * @param window Application's window.
   */
- void show_numbers(sf::RenderWindow& window);
+ void show_numbers(sf::RenderWindow& window) const;
 
  /**
   * Changes coordination system _scale if mouse scrolled.
@@ -61,6 +61,7 @@ public:
 
 private:
  char _input[1024] = "";
+ std::string _errorMsg;
  Canvas _coordinateSystem;
  float _x = 0;
  float _f = nanf("");
