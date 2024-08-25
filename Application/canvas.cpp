@@ -206,12 +206,7 @@ std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::ev
         for (int i = 0; i < pointNumber; ++i) {
             const auto j = static_cast<float>(i);
             float x = _startEndHorizontal.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
-            float y = function->evaluate(x);
-            // try {
-            //     y = static_cast<float>(function.calc_value(x));
-            // } catch (az::OutOfDomain& e) {
-            //     y = std::nanf("");
-            // }
+            auto y = static_cast<float>(function->evaluate(x));
             array[i] = std::make_pair(x, y);
         }
         functions.push_back(array);
