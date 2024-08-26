@@ -6,6 +6,25 @@
 
 #include "imgui.h"
 
+namespace {
+    float mapToInterval(float x, const float goalWidth, const float goalSmallest, const float currentSmallest) {
+        x -= currentSmallest;
+        x /= goalWidth;
+        x += goalSmallest;
+        return x;
+    }
+
+    // Evaluate all functions for given x
+    std::vector<float> evaluateFunctions(const std::vector<std::string>& functions, const float x) {
+        std::vector<float> result;
+        for (const auto& function : functions) {
+            auto const f = az::parse_expression(function);
+            result.push_back(static_cast<float>(f->evaluate(x)));
+        }
+        return result;
+    }
+}
+
 void Canvas::draw(sf::RenderWindow& window) {
     set_lines(window);
 
@@ -268,6 +287,27 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
     }
 
     return returns;
+}
+
+std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow const& window) {
+    std::vector<sf::VertexArray> graphs;
+
+    const unsigned width = window.getSize().x;
+    unsigned startPixel = (width + 2) / 3;
+    const auto leftMargin = static_cast<float>(startPixel);
+
+
+    // startPixel should map to left end of the interval
+    // last pixel should map to right end of the interval
+    // goal width of the interval
+    const float goalWidth = 12.f / _scale;
+
+    for (; startPixel < width; ++startPixel) {
+        const float x = mapToInterval(static_cast<float>(startPixel), goalWidth, _startEndHorizontal.first, leftMargin);
+        auto functionValues = evaluateFunctions(_allFunctions, x);
+    }
+
+    return graphs;
 }
 
 void Canvas::shift(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {

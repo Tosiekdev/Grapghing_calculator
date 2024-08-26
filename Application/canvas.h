@@ -125,7 +125,13 @@ private:
   * Calculates positions of points to draw graph.
   * @return Vector of vertex arrays in type sf::TriangleStrip.
   */
- std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow& window);
+ [[deprecated]]std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow& window);
+
+ /**
+  * Calculates positions of points to draw graph.
+  * @return Vector of vertex arrays in type sf::TriangleStrip.
+  */
+ std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow const& window);
 };
 
 
