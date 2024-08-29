@@ -14,6 +14,8 @@
 
 #include "imgui-SFML.h"
 
+using Interval = std::pair<float, float>;
+
 class Canvas {
 public:
  /**
@@ -64,11 +66,11 @@ private:
  /**
   * Interval of visible y axis.
   */
- std::pair<float, float> _startEndVertical = std::make_pair(-5.f, 5.f);
+ Interval intervalY = std::make_pair(-5.f, 5.f);
  /**
   * Interval of visible x axis.
   */
- std::pair<float, float> _startEndHorizontal = std::make_pair(-6.f, 6.f);
+ Interval intervalX = std::make_pair(-6.f, 6.f);
  /*
   * Vertical lines of coordinate system.
   */

@@ -7,21 +7,27 @@
 #include "imgui.h"
 
 namespace {
-    float mapToInterval(float x, const float goalWidth, const float goalSmallest, const float currentSmallest) {
-        x -= currentSmallest;
-        x /= goalWidth;
-        x += goalSmallest;
+    float mapToInterval(float x, const float intervalRatio, const float goalMin, const float currentMin) {
+        x -= currentMin;
+        x /= intervalRatio;
+        x += goalMin;
         return x;
     }
 
     // Evaluate all functions for given x
     std::vector<float> evaluateFunctions(const std::vector<std::string>& functions, const float x) {
         std::vector<float> result;
-        for (const auto& function : functions) {
+        for (const auto& function: functions) {
             auto const f = az::parse_expression(function);
             result.push_back(static_cast<float>(f->evaluate(x)));
         }
         return result;
+    }
+
+    float canvasCenter(const float height) {
+        const float headerSize = height / 13.5f;
+        const float canvasSize = height - headerSize;
+        return canvasSize / 2.f + headerSize;
     }
 }
 
@@ -51,12 +57,12 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     // y position of lines and x position of starting vertical line
     const float verticalLineY = y / 13.5f;
     float step = graphWidth / 12.f;
-    float whole = std::abs(_startEndHorizontal.second - std::floor(_startEndHorizontal.second));
+    float whole = std::abs(intervalX.second - std::floor(intervalX.second));
     float verticalStartX = x / 3.f + (1 - whole) * step;
 
     // x position of lines and y position of starting horizontal line
     const float horizontalLineX = x / 3.f;
-    whole = std::abs(_startEndVertical.second - std::floor(_startEndVertical.second));
+    whole = std::abs(intervalY.second - std::floor(intervalY.second));
     float horizontalStartY = y / 13.5f + whole * step;
 
     // line size
@@ -67,7 +73,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int a = 0;
     for (auto& i: _verticalLines) {
-        const int zero = static_cast<int>(std::ceil(-_startEndHorizontal.first)) - 1;
+        const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
         sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
         float posX = a == zero ? verticalStartX - 1 : verticalStartX;
         sf::Color color = a == zero ? sf::Color::Black : sf::Color(150, 150, 150);
@@ -80,7 +86,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 
     int b = 0;
     for (auto& j: _horizontalLines) {
-        const int zero = static_cast<int>(std::floor(_startEndVertical.second));
+        const int zero = static_cast<int>(std::floor(intervalY.second));
         sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
         float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
         sf::Color color = b == zero ? sf::Color::Black : sf::Color(150, 150, 150);
@@ -137,17 +143,17 @@ void Canvas::show_numbers(sf::RenderWindow& window) const {
 
 void Canvas::vertical_numbers(const float x, const float graphWidth, const float step, const float y) const {
     float whole;
-    const float fraction = std::modf(_startEndVertical.second, &whole);
+    const float fraction = std::modf(intervalY.second, &whole);
     for (int i = 0; i < 11; ++i) {
         const auto j = static_cast<float>(i);
-        float shift = std::abs(_startEndHorizontal.first) - 6.f;
+        float shift = std::abs(intervalX.first) - 6.f;
 
         ImGui::SetNextWindowSize(ImVec2(0, 0));
         auto defaultNext = ImVec2(x / 3.f + graphWidth / 2.f + shift * step, y / 13.5f + (j + fraction) * step - 18.f);
-        if (_startEndHorizontal.first >= 0) {
+        if (intervalX.first >= 0) {
             defaultNext = ImVec2(x / 3.f, y / 13.5f + (j + fraction) * step - 18.f);
         }
-        if (_startEndHorizontal.second <= 0.5) {
+        if (intervalX.second <= 0.5) {
             defaultNext = ImVec2(x - 70.f, y / 13.5f + (j + fraction) * step - 18.f);
         }
         ImGui::SetNextWindowPos(defaultNext);
@@ -171,17 +177,17 @@ void Canvas::vertical_numbers(const float x, const float graphWidth, const float
 
 void Canvas::horizontal_numbers(float x, float step, float y) const {
     float whole;
-    const float fraction = std::modf(_startEndHorizontal.first, &whole);
+    const float fraction = std::modf(intervalX.first, &whole);
     for (int i = 0; i <= _verticalLines.size(); ++i) {
         const auto j = static_cast<float>(i);
-        float shift = std::abs(_startEndVertical.second) - 5.f;
+        float shift = std::abs(intervalY.second) - 5.f;
 
         ImGui::SetNextWindowSize(ImVec2(0, 0));
         auto defaultNext = ImVec2(x / 3.f + (j - fraction) * step - 24.f, y / 13.5f + y / 2.f - 18.f + shift * step);
-        if (_startEndVertical.second <= 0) {
+        if (intervalY.second <= 0) {
             defaultNext = ImVec2(x / 3.f + (j - fraction) * step - 24.f, y / 13.5f);
         }
-        if (_startEndVertical.first >= -1) {
+        if (intervalY.first >= -1) {
             defaultNext = ImVec2(x / 3.f + (j - fraction) * step - 24.f, y - 32.f);
         }
         ImGui::SetNextWindowPos(defaultNext);
@@ -224,7 +230,7 @@ std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::ev
         std::array<std::pair<float, float>, pointNumber> array;
         for (int i = 0; i < pointNumber; ++i) {
             const auto j = static_cast<float>(i);
-            float x = _startEndHorizontal.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
+            float x = intervalX.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
             auto y = static_cast<float>(function->evaluate(x));
             array[i] = std::make_pair(x, y);
         }
@@ -250,7 +256,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
 
     // vertical shift
     const float defaultZero = height / 13.5f + 5 * step;
-    const float shift = step * (_startEndVertical.first + _startEndVertical.second) / 2;
+    const float shift = step * (intervalY.first + intervalY.second) / 2;
     const float z = defaultZero + shift;
 
     auto functionsValues = evaluate_functions();
@@ -260,7 +266,7 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
         sf::VertexArray plot(sf::TriangleStrip);
         for (auto [x, y]: i) {
             if (!isnanf(y)) {
-                x -= _startEndHorizontal.first / _scale;
+                x -= intervalX.first / _scale;
 
                 // scale values
                 x *= a;
@@ -271,10 +277,21 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
                 y += z;
 
                 sf::Vertex top, bottom;
+                sf::Vertex topLeft, bottomLeft, topRight, bottomRight;
                 auto color = _functionColors[n % 7];
 
-                constexpr float lineThickness = 2.f;
+                constexpr float lineThickness = 3.f;
 
+
+                // topLeft = sf::Vertex(sf::Vector2f(x - lineThickness , y - lineThickness), color);
+                // bottomLeft = sf::Vertex(sf::Vector2f(x - lineThickness , y + lineThickness), color);
+                // topRight = sf::Vertex(sf::Vector2f(x + lineThickness , y - lineThickness), color);
+                // bottomRight = sf::Vertex(sf::Vector2f(x + lineThickness , y + lineThickness), color);
+                //
+                // plot.append(bottomLeft);
+                // plot.append(bottomRight);
+                // plot.append(topLeft);
+                // plot.append(topRight);
                 top = sf::Vertex(sf::Vector2f(x, y + lineThickness), color);
                 bottom = sf::Vertex(sf::Vector2f(x, y - lineThickness), color);
 
@@ -296,15 +313,30 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow const& wind
     unsigned startPixel = (width + 2) / 3;
     const auto leftMargin = static_cast<float>(startPixel);
 
-
     // startPixel should map to left end of the interval
     // last pixel should map to right end of the interval
     // goal width of the interval
     const float goalWidth = 12.f / _scale;
+    const float ratio = (static_cast<float>(width) - leftMargin) / goalWidth;
+
+    const float centerY = canvasCenter(static_cast<float>(window.getSize().y));
+    auto mapForCanvas = [ratio=1.f / ratio, interval=intervalX, centerY](float value) {
+        // first scale normally to interval
+        const float min = interval.first + (interval.second - interval.first) / 2.f;
+        value = mapToInterval(value, ratio, centerY, min);
+        return value;
+    };
 
     for (; startPixel < width; ++startPixel) {
-        const float x = mapToInterval(static_cast<float>(startPixel), goalWidth, _startEndHorizontal.first, leftMargin);
+        const float x = mapToInterval(static_cast<float>(startPixel), ratio, intervalX.first,
+                                      leftMargin);
         auto functionValues = evaluateFunctions(_allFunctions, x);
+
+        // scale all this values to real life
+        // for every value create VertexArray of triangle strips to add pixel there
+        std::vector<float> y;
+        y.reserve(_allFunctions.size());
+        std::ranges::transform(functionValues, y.begin(), mapForCanvas);
     }
 
     return graphs;
@@ -321,8 +353,8 @@ void Canvas::shift(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vecto
     const float xChange = static_cast<float>(changeOfPosition.x) / scale * 12;
     const float yChange = static_cast<float>(changeOfPosition.y) / scale * 10;
 
-    _startEndHorizontal.first -= xChange;
-    _startEndHorizontal.second -= xChange;
-    _startEndVertical.first += yChange;
-    _startEndVertical.second += yChange;
+    intervalX.first -= xChange;
+    intervalX.second -= xChange;
+    intervalY.first += yChange;
+    intervalY.second += yChange;
 }
