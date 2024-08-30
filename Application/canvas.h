@@ -82,7 +82,7 @@ private:
  /**
   * Stores definitions of all functions.
   */
- std::vector<std::string> _allFunctions;
+ std::vector<std::string> functions;
 
  const std::array<sf::Color, 7> _functionColors = {
   sf::Color::Black,
@@ -133,7 +133,7 @@ private:
   * Calculates positions of points to draw graph.
   * @return Vector of vertex arrays in type sf::TriangleStrip.
   */
- std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow const& window);
+ std::vector<sf::VertexArray> prepareGraphs(sf::RenderWindow const& window);
 };
 
 

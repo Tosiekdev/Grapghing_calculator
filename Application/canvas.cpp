@@ -42,7 +42,7 @@ void Canvas::draw(sf::RenderWindow& window) {
         window.draw(j);
     }
 
-    for (const auto& x: prepare_graphs(window)) {
+    for (const auto& x: prepareGraphs(window)) {
         window.draw(x);
     }
 }
@@ -99,7 +99,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
 }
 
 std::vector<std::string>& Canvas::all_functions() {
-    return _allFunctions;
+    return functions;
 }
 
 void Canvas::show_scale(sf::RenderWindow& window) {
@@ -225,7 +225,7 @@ void Canvas::scroll_scale(float delta) {
 
 std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::evaluate_functions() {
     std::vector<std::array<std::pair<float, float>, pointNumber>> functions;
-    for (std::string& func: _allFunctions) {
+    for (std::string& func: this->functions) {
         auto const function = az::parse_expression(func);
         std::array<std::pair<float, float>, pointNumber> array;
         for (int i = 0; i < pointNumber; ++i) {
@@ -306,12 +306,12 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
     return returns;
 }
 
-std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow const& window) {
-    std::vector<sf::VertexArray> graphs;
+std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& window) {
+    std::vector<sf::VertexArray> graphs(functions.size());
 
     const unsigned width = window.getSize().x;
-    unsigned startPixel = (width + 2) / 3;
-    const auto leftMargin = static_cast<float>(startPixel);
+    unsigned pixel = (width + 2) / 3;
+    const auto leftMargin = static_cast<float>(pixel);
 
     // startPixel should map to left end of the interval
     // last pixel should map to right end of the interval
@@ -321,22 +321,25 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow const& wind
 
     const float centerY = canvasCenter(static_cast<float>(window.getSize().y));
     auto mapForCanvas = [ratio=1.f / ratio, interval=intervalX, centerY](float value) {
-        // first scale normally to interval
         const float min = interval.first + (interval.second - interval.first) / 2.f;
         value = mapToInterval(value, ratio, centerY, min);
         return value;
     };
 
-    for (; startPixel < width; ++startPixel) {
-        const float x = mapToInterval(static_cast<float>(startPixel), ratio, intervalX.first,
+    for (; pixel < width; ++pixel) {
+        const auto fPixel = static_cast<float>(pixel);
+        const float x = mapToInterval(static_cast<float>(pixel), ratio, intervalX.first,
                                       leftMargin);
-        auto functionValues = evaluateFunctions(_allFunctions, x);
+        auto functionValues = evaluateFunctions(functions, x);
 
-        // scale all this values to real life
-        // for every value create VertexArray of triangle strips to add pixel there
-        std::vector<float> y;
-        y.reserve(_allFunctions.size());
+        std::vector<float> y(functions.size());
         std::ranges::transform(functionValues, y.begin(), mapForCanvas);
+        for (size_t i{}; i < functions.size(); ++i) {
+            const auto color = _functionColors[i % 7];
+            float lineThickness = 5.f;
+            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] + lineThickness), color));
+            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] - lineThickness), color)  );
+        }
     }
 
     return graphs;
