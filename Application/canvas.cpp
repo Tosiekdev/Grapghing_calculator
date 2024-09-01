@@ -326,7 +326,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
 
     for (; pixel < width; ++pixel) {
         const auto fPixel = static_cast<float>(pixel);
-        const float x = mapToInterval(static_cast<float>(pixel), ratio, intervalX.first,
+        const float x = mapToInterval(static_cast<float>(pixel), ratio, intervalX.first / _scale,
                                       leftMargin);
         auto functionValues = evaluateFunctions(functions, x);
 
