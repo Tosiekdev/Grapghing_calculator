@@ -5,9 +5,9 @@
 #ifndef GRAPHING_CALCULATOR_APP_H
 #define GRAPHING_CALCULATOR_APP_H
 
-#include "calculator.h"
-#include "manual.h"
-#include "menu.h"
+#include "calculator.hpp"
+#include "manual.hpp"
+#include "menu.hpp"
 
 /**
  * Class responsible for whole application.

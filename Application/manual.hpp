@@ -5,7 +5,7 @@
 #ifndef GRAPHING_CALCULATOR_MANUAL_H
 #define GRAPHING_CALCULATOR_MANUAL_H
 
-#include "window.h"
+#include "window.hpp"
 
 class Manual : public Window {
  /**

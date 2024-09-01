@@ -2,7 +2,7 @@
 // Created by tosiek on 11.06.22.
 //
 
-#include "menu.h"
+#include "menu.hpp"
 
 #include "imgui-SFML.h"
 #include "imgui.h"

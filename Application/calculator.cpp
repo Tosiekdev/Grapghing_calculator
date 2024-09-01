@@ -2,7 +2,7 @@
 // Created by tosiek on 14.06.22.
 //
 
-#include "calculator.h"
+#include "calculator.hpp"
 
 void Calculator::handle_events(sf::RenderWindow& window, Scene& scene) {
     while (window.pollEvent(e_)) {

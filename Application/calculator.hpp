@@ -5,8 +5,8 @@
 #ifndef GRAPHING_CALCULATOR_CALCULATOR_H
 #define GRAPHING_CALCULATOR_CALCULATOR_H
 
-#include "function_tools.h"
-#include "window.h"
+#include "function_tools.hpp"
+#include "window.hpp"
 
 /**
  * Class to handle graphic calculator.

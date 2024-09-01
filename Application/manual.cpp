@@ -2,7 +2,7 @@
 // Created by tosiek on 16.06.22.
 //
 
-#include "manual.h"
+#include "manual.hpp"
 
 #include "imgui-SFML.h"
 #include "imgui.h"

@@ -2,10 +2,10 @@
 // Created by tosiek on 11.06.22.
 //
 
-#include "window.h"
+#include "window.hpp"
 
 #include "imgui.h"
-#include "useful_functions.h"
+#include "useful_functions.hpp"
 
 void Window::returning_button(sf::RenderWindow& window, sf::Clock& deltaClock, Scene& scene) {
     //Getting window's size for scaling

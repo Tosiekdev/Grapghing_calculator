@@ -9,9 +9,9 @@
 
 #include <array>
 
-#include "canvas.h"
+#include "canvas.hpp"
 #include "imgui.h"
-#include "window.h"
+#include "window.hpp"
 
 class FunctionTools {
 public:

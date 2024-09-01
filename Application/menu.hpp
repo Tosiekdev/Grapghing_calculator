@@ -5,7 +5,7 @@
 #ifndef GRAPHING_CALCULATOR_MENU_H
 #define GRAPHING_CALCULATOR_MENU_H
 
-#include "window.h"
+#include "window.hpp"
 
 class Menu : public Window {
  /**

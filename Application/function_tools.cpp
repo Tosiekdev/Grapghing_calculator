@@ -2,7 +2,7 @@
 // Created by tosiek on 05.02.23.
 //
 
-#include "function_tools.h"
+#include "function_tools.hpp"
 
 void FunctionTools::show(sf::RenderWindow& window, Scene& scene) {
     //Getting window's size for scaling

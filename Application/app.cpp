@@ -2,7 +2,7 @@
 // Created by tosiek on 11.06.22.
 //
 
-#include "app.h"
+#include "app.hpp"
 
 #include <iostream>
 

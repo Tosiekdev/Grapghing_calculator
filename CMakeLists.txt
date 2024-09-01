@@ -23,16 +23,16 @@ if(SFML_FOUND)
     message(STATUS "SFML_VERSION: ${SFML_VERSION}")
 endif()
 
-add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.h Application/menu.cpp
-        Application/menu.h Application/window.cpp Application/window.h
-        Application/calculator.cpp Application/calculator.h
-        Application/manual.cpp Application/manual.h
+add_executable(graphing_calculator main.cpp Application/app.cpp Application/app.hpp Application/menu.cpp
+        Application/menu.hpp Application/window.cpp Application/window.hpp
+        Application/calculator.cpp Application/calculator.hpp
+        Application/manual.cpp Application/manual.hpp
         imgui-sfml/imgui-SFML.h
         imgui/imgui.cpp imgui/imgui_widgets.cpp imgui/imgui_draw.cpp imgui/imgui_tables.cpp imgui-sfml/imgui-SFML.cpp
         imgui/imgui_demo.cpp
-        Application/useful_functions.h Application/useful_functions.cpp
-        Application/function_tools.h Application/function_tools.cpp
-        Application/canvas.h Application/canvas.cpp
+        Application/useful_functions.hpp Application/useful_functions.cpp
+        Application/function_tools.hpp Application/function_tools.cpp
+        Application/canvas.hpp Application/canvas.cpp
         )
 
 include(FindPkgConfig)

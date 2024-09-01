@@ -2,7 +2,7 @@
 // Created by tosiek on 06.02.23.
 //
 
-#include "canvas.h"
+#include "canvas.hpp"
 
 #include "imgui.h"
 
