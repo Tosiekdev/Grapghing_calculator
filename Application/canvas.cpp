@@ -24,10 +24,11 @@ namespace {
         return result;
     }
 
-    float canvasCenter(const float height) {
+    float canvasZero(const float height, const float width, Interval interval) {
+        const float step = width / 12.f;
         const float headerSize = height / 13.5f;
-        const float canvasSize = height - headerSize;
-        return canvasSize / 2.f + headerSize;
+        const float shift = step * (interval.first + interval.second) / 2;
+        return headerSize + 5.f * step + shift;
     }
 }
 
@@ -312,14 +313,14 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
     const unsigned width = window.getSize().x;
     unsigned pixel = (width + 2) / 3;
     const auto leftMargin = static_cast<float>(pixel);
+    const auto graphWidth = 2.f * static_cast<float>(width) / 3.f;
 
     const float goalWidth = 12.f / _scale;
     const float ratio = (static_cast<float>(width) - leftMargin) / goalWidth;
 
-    const float centerY = canvasCenter(static_cast<float>(window.getSize().y));
-    auto mapForCanvas = [ratio=-1.f / ratio, interval=intervalX, centerY](float value) {
-        const float min = interval.first + (interval.second - interval.first) / 2.f;
-        value = mapToInterval(value, ratio, centerY, min);
+    const float zero = canvasZero(static_cast<float>(window.getSize().y), graphWidth, intervalY);
+    auto mapForCanvas = [ratio=-1.f / ratio, zero](float value) {
+        value = mapToInterval(value, ratio, zero, 0.f);
         return value;
     };
 
