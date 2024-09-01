@@ -30,6 +30,12 @@ namespace {
         const float shift = step * (interval.first + interval.second) / 2;
         return headerSize + 5.f * step + shift;
     }
+
+    void addPoint(sf::VertexArray& graph, const float x, const float y, const sf::Color color) {
+        constexpr float lineThickness = 5.f;
+        graph.append(sf::Vertex(sf::Vector2f(x, y + lineThickness), color));
+        graph.append(sf::Vertex(sf::Vector2f(x, y - lineThickness), color));
+    }
 }
 
 void Canvas::draw(sf::RenderWindow& window) {
@@ -224,89 +230,6 @@ void Canvas::scroll_scale(float delta) {
     }
 }
 
-std::vector<std::array<std::pair<float, float>, Canvas::pointNumber>> Canvas::evaluate_functions() {
-    std::vector<std::array<std::pair<float, float>, pointNumber>> functions;
-    for (std::string& func: this->functions) {
-        auto const function = az::parse_expression(func);
-        std::array<std::pair<float, float>, pointNumber> array;
-        for (int i = 0; i < pointNumber; ++i) {
-            const auto j = static_cast<float>(i);
-            float x = intervalX.first / _scale + 12.f / static_cast<float>(pointNumber) / _scale * j;
-            auto y = static_cast<float>(function->evaluate(x));
-            array[i] = std::make_pair(x, y);
-        }
-        functions.push_back(array);
-    }
-    return functions;
-}
-
-std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
-    std::vector<sf::VertexArray> returns;
-
-    // calculating graph width
-    auto width = static_cast<float>(window.getSize().x);
-    const auto height = static_cast<float>(window.getSize().y);
-    width = width - width / 3.f;
-    const float step = width / 12.f;
-
-    // scaling factor
-    const float a = width / 12.f * _scale;
-
-    // shifting coefficient
-    const float b = width / 2.f;
-
-    // vertical shift
-    const float defaultZero = height / 13.5f + 5 * step;
-    const float shift = step * (intervalY.first + intervalY.second) / 2;
-    const float z = defaultZero + shift;
-
-    auto functionsValues = evaluate_functions();
-
-    int n = 0;
-    for (const auto& i: functionsValues) {
-        sf::VertexArray plot(sf::TriangleStrip);
-        for (auto [x, y]: i) {
-            if (!isnanf(y)) {
-                x -= intervalX.first / _scale;
-
-                // scale values
-                x *= a;
-                y *= -a;
-
-                // shift graph
-                x += b;
-                y += z;
-
-                sf::Vertex top, bottom;
-                sf::Vertex topLeft, bottomLeft, topRight, bottomRight;
-                auto color = _functionColors[n % 7];
-
-                constexpr float lineThickness = 3.f;
-
-
-                // topLeft = sf::Vertex(sf::Vector2f(x - lineThickness , y - lineThickness), color);
-                // bottomLeft = sf::Vertex(sf::Vector2f(x - lineThickness , y + lineThickness), color);
-                // topRight = sf::Vertex(sf::Vector2f(x + lineThickness , y - lineThickness), color);
-                // bottomRight = sf::Vertex(sf::Vector2f(x + lineThickness , y + lineThickness), color);
-                //
-                // plot.append(bottomLeft);
-                // plot.append(bottomRight);
-                // plot.append(topLeft);
-                // plot.append(topRight);
-                top = sf::Vertex(sf::Vector2f(x, y + lineThickness), color);
-                bottom = sf::Vertex(sf::Vector2f(x, y - lineThickness), color);
-
-                plot.append(bottom);
-                plot.append(top);
-            }
-        }
-        n++;
-        returns.push_back(plot);
-    }
-
-    return returns;
-}
-
 std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& window) {
     std::vector graphs(functions.size(), sf::VertexArray(sf::TrianglesStrip));
 
@@ -326,7 +249,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
 
     for (; pixel < width; ++pixel) {
         const auto fPixel = static_cast<float>(pixel);
-        const float x = mapToInterval(static_cast<float>(pixel), ratio, intervalX.first / _scale,
+        const float x = mapToInterval(static_cast<float>(pixel), ratio, minX(),
                                       leftMargin);
         auto functionValues = evaluateFunctions(functions, x);
 
@@ -334,9 +257,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
         std::ranges::transform(functionValues, y.begin(), mapForCanvas);
         for (size_t i{}; i < functions.size(); ++i) {
             const auto color = _functionColors[i % 7];
-            constexpr float lineThickness = 5.f;
-            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] + lineThickness), color));
-            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] - lineThickness), color));
+            addPoint(graphs[i], fPixel, y[i], color);
         }
     }
 

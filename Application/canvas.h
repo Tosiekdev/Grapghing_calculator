@@ -53,6 +53,13 @@ public:
   */
  void shift(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition);
 
+ /**
+  * @return Smallest x in visible canvas
+  */
+ float minX() const {
+  return intervalX.first / _scale;
+ }
+
 private:
  static constexpr size_t pointNumber = 1000;
  /**
@@ -116,18 +123,6 @@ private:
   * @param y Height of the window.
   */
  void horizontal_numbers(float x, float step, float y) const;
-
- /**
-  * Calculates value of all functions on visible interval.
-  * @return 1000 coordinates of points which are subset of function.
-  */
- std::vector<std::array<std::pair<float, float>, pointNumber> > evaluate_functions();
-
- /**
-  * Calculates positions of points to draw graph.
-  * @return Vector of vertex arrays in type sf::TriangleStrip.
-  */
- [[deprecated]]std::vector<sf::VertexArray> prepare_graphs(sf::RenderWindow& window);
 
  /**
   * Calculates positions of points to draw graph.

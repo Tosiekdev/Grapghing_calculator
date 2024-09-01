@@ -80,7 +80,7 @@ void Window::background(sf::RenderWindow& window, Scene& scene) {
     //Color theme
     ImGui::StyleColorsLight();
 
-    int flags = ImGuiWindowFlags_NoTitleBar
+    constexpr int flags = ImGuiWindowFlags_NoTitleBar
                 | ImGuiWindowFlags_NoResize
                 | ImGuiWindowFlags_NoBringToFrontOnFocus;
     ImGui::Begin("Background", nullptr, flags);
