@@ -307,20 +307,17 @@ std::vector<sf::VertexArray> Canvas::prepare_graphs(sf::RenderWindow& window) {
 }
 
 std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& window) {
-    std::vector<sf::VertexArray> graphs(functions.size());
+    std::vector graphs(functions.size(), sf::VertexArray(sf::TrianglesStrip));
 
     const unsigned width = window.getSize().x;
     unsigned pixel = (width + 2) / 3;
     const auto leftMargin = static_cast<float>(pixel);
 
-    // startPixel should map to left end of the interval
-    // last pixel should map to right end of the interval
-    // goal width of the interval
     const float goalWidth = 12.f / _scale;
     const float ratio = (static_cast<float>(width) - leftMargin) / goalWidth;
 
     const float centerY = canvasCenter(static_cast<float>(window.getSize().y));
-    auto mapForCanvas = [ratio=1.f / ratio, interval=intervalX, centerY](float value) {
+    auto mapForCanvas = [ratio=-1.f / ratio, interval=intervalX, centerY](float value) {
         const float min = interval.first + (interval.second - interval.first) / 2.f;
         value = mapToInterval(value, ratio, centerY, min);
         return value;
@@ -336,9 +333,9 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
         std::ranges::transform(functionValues, y.begin(), mapForCanvas);
         for (size_t i{}; i < functions.size(); ++i) {
             const auto color = _functionColors[i % 7];
-            float lineThickness = 5.f;
+            constexpr float lineThickness = 5.f;
             graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] + lineThickness), color));
-            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] - lineThickness), color)  );
+            graphs[i].append(sf::Vertex(sf::Vector2f(fPixel, y[i] - lineThickness), color));
         }
     }
 
