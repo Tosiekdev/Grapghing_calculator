@@ -14,7 +14,6 @@ namespace {
         return x;
     }
 
-    // Evaluate all functions for given x
     std::vector<float> evaluateFunctions(const std::vector<std::string>& functions, const float x) {
         std::vector<float> result;
         for (const auto& function: functions) {
@@ -24,7 +23,7 @@ namespace {
         return result;
     }
 
-    float canvasZero(const float height, const float width, Interval interval) {
+    float canvasZero(const float height, const float width, const Interval& interval) {
         const float step = width / 12.f;
         const float headerSize = height / 13.5f;
         const float shift = step * (interval.first + interval.second) / 2;
@@ -39,13 +38,13 @@ namespace {
 }
 
 void Canvas::draw(sf::RenderWindow& window) {
-    set_lines(window);
+    setLines(window);
 
-    for (const auto& i: _verticalLines) {
+    for (const auto& i: verticalLines) {
         window.draw(i);
     }
 
-    for (const auto& j: _horizontalLines) {
+    for (const auto& j: horizontalLines) {
         window.draw(j);
     }
 
@@ -54,7 +53,7 @@ void Canvas::draw(sf::RenderWindow& window) {
     }
 }
 
-void Canvas::set_lines(sf::RenderWindow& window) {
+void Canvas::setLines(const sf::RenderWindow& window) {
     const float x = static_cast<float>(window.getSize().x);
     const float y = static_cast<float>(window.getSize().y);
 
@@ -79,7 +78,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     const auto horizontalLineSizeBolded = sf::Vector2f(graphWidth, 3);
 
     int a = 0;
-    for (auto& i: _verticalLines) {
+    for (auto& i: verticalLines) {
         const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
         sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
         float posX = a == zero ? verticalStartX - 1 : verticalStartX;
@@ -92,7 +91,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     }
 
     int b = 0;
-    for (auto& j: _horizontalLines) {
+    for (auto& j: horizontalLines) {
         const int zero = static_cast<int>(std::floor(intervalY.second));
         sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
         float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
@@ -105,11 +104,7 @@ void Canvas::set_lines(sf::RenderWindow& window) {
     }
 }
 
-std::vector<std::string>& Canvas::all_functions() {
-    return functions;
-}
-
-void Canvas::show_scale(sf::RenderWindow& window) {
+void Canvas::showScale(const sf::RenderWindow& window) {
     //windows size
     const float x = static_cast<float>(window.getSize().x);
     const float y = static_cast<float>(window.getSize().y);
@@ -121,18 +116,18 @@ void Canvas::show_scale(sf::RenderWindow& window) {
 
     ImGui::Begin("Scale", nullptr, flags);
     ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
-    _scalingStep = _scale < 1.f ? 0.01f : 0.1f;
-    ImGui::InputScalar("Scale", ImGuiDataType_Float, &_scale, &_scalingStep, nullptr, "%.2f");
+    scalingStep = scale < 1.f ? 0.01f : 0.1f;
+    ImGui::InputScalar("Scale", ImGuiDataType_Float, &scale, &scalingStep, nullptr, "%.2f");
     ImGui::PopFont();
     ImGui::End();
 
     // Limitation for scale
-    if (_scale < 0.01f) {
-        _scale = 0.01f;
+    if (scale < 0.01f) {
+        scale = 0.01f;
     }
 }
 
-void Canvas::show_numbers(sf::RenderWindow& window) const {
+void Canvas::showNumbers(const sf::RenderWindow& window) const {
     const float x = static_cast<float>(window.getSize().x);
     const float y = static_cast<float>(window.getSize().y);
 
@@ -142,13 +137,13 @@ void Canvas::show_numbers(sf::RenderWindow& window) const {
     const float step = graphWidth / 12.f;
 
     // vertical numbers
-    vertical_numbers(x, graphWidth, step, y);
+    verticalNumbers(x, graphWidth, step, y);
 
     // horizontal numbers
-    horizontal_numbers(x, step, y);
+    horizontalNumbers(x, step, y);
 }
 
-void Canvas::vertical_numbers(const float x, const float graphWidth, const float step, const float y) const {
+void Canvas::verticalNumbers(const float x, const float graphWidth, const float step, const float y) const {
     float whole;
     const float fraction = std::modf(intervalY.second, &whole);
     for (int i = 0; i < 11; ++i) {
@@ -168,9 +163,9 @@ void Canvas::vertical_numbers(const float x, const float graphWidth, const float
         constexpr int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Vertical number" + std::to_string(i);
-        if (const float number = (whole - j) / _scale; number != 0) {
+        if (const float number = (whole - j) / scale; number != 0) {
             std::string convertedNumber = std::to_string(number);
-            const int afterComa = _scale > 1 ? 4 : 3;
+            const int afterComa = scale > 1 ? 4 : 3;
             convertedNumber = convertedNumber.substr(0, convertedNumber.find('.') + afterComa);
 
             ImGui::Begin(title.c_str(), nullptr, flags);
@@ -182,10 +177,10 @@ void Canvas::vertical_numbers(const float x, const float graphWidth, const float
     }
 }
 
-void Canvas::horizontal_numbers(float x, float step, float y) const {
+void Canvas::horizontalNumbers(const float x, const float step, const float y) const {
     float whole;
     const float fraction = std::modf(intervalX.first, &whole);
-    for (int i = 0; i <= _verticalLines.size(); ++i) {
+    for (int i = 0; i <= verticalLines.size(); ++i) {
         const auto j = static_cast<float>(i);
         float shift = std::abs(intervalY.second) - 5.f;
 
@@ -202,14 +197,14 @@ void Canvas::horizontal_numbers(float x, float step, float y) const {
         constexpr int flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize;
 
         std::string title = "Horizontal number" + std::to_string(i);
-        const float number = (whole + j) / _scale;
+        const float number = (whole + j) / scale;
 
         std::string convertedNumber;
         if (number == 0) {
             convertedNumber = "0";
         } else {
             convertedNumber = std::to_string(number);
-            const int afterComa = _scale > 1 ? 4 : 3;
+            const int afterComa = scale > 1 ? 4 : 3;
             convertedNumber = convertedNumber.substr(0, convertedNumber.find('.') + afterComa);
         }
 
@@ -221,16 +216,16 @@ void Canvas::horizontal_numbers(float x, float step, float y) const {
     }
 }
 
-void Canvas::scroll_scale(float delta) {
-    _scalingStep = _scale < 1.f ? 0.01f : 0.1f;
+void Canvas::scrollScale(const float delta) {
+    scalingStep = scale < 1.f ? 0.01f : 0.1f;
     if (delta > 0) {
-        _scale += _scalingStep;
+        scale += scalingStep;
     } else {
-        _scale -= _scalingStep;
+        scale -= scalingStep;
     }
 }
 
-std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& window) {
+std::vector<sf::VertexArray> Canvas::prepareGraphs(const sf::RenderWindow& window) const {
     std::vector graphs(functions.size(), sf::VertexArray(sf::TrianglesStrip));
 
     const unsigned width = window.getSize().x;
@@ -238,7 +233,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
     const auto leftMargin = static_cast<float>(pixel);
     const auto graphWidth = 2.f * static_cast<float>(width) / 3.f;
 
-    const float goalWidth = 12.f / _scale;
+    const float goalWidth = 12.f / scale;
     const float ratio = (static_cast<float>(width) - leftMargin) / goalWidth;
 
     const float zero = canvasZero(static_cast<float>(window.getSize().y), graphWidth, intervalY);
@@ -256,7 +251,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
         std::vector<float> y(functions.size());
         std::ranges::transform(functionValues, y.begin(), mapForCanvas);
         for (size_t i{}; i < functions.size(); ++i) {
-            const auto color = _functionColors[i % 7];
+            const auto color = functionColors[i % 7];
             addPoint(graphs[i], fPixel, y[i], color);
         }
     }
@@ -264,7 +259,7 @@ std::vector<sf::VertexArray> Canvas::prepareGraphs(sf::RenderWindow const& windo
     return graphs;
 }
 
-void Canvas::shift(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition) {
+void Canvas::shift(const sf::RenderWindow& window, const sf::Vector2i oldPosition, const sf::Vector2i newPosition) {
     //get window size
     const auto size = window.getSize();
     //scaling factor to transform mouse change coordination to number between 0 and 12 for x-axis and 0 and 10 for y-axis

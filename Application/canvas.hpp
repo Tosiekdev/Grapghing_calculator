@@ -25,51 +25,50 @@ public:
  void draw(sf::RenderWindow& window);
 
  /**
-  * @return Reference to vector of all functions.
-  */
- std::vector<std::string>& all_functions();
-
- /**
   * Shows scale indicator of plot;
   * @param window Application's window.
   */
- void show_scale(sf::RenderWindow& window);
+ void showScale(const sf::RenderWindow& window);
 
  /**
   * Shows proper for scale numbers on the coordinate system;
   * @param window Application's window.
   */
- void show_numbers(sf::RenderWindow& window) const;
+ void showNumbers(const sf::RenderWindow& window) const;
 
  /**
   * Changes _scale if mouse scrolled.
   * @param delta Wheel offset.
   */
- void scroll_scale(float delta);
+ void scrollScale(float delta);
 
  /**
   * Shifts coordinate system
   * @param window application's window
   */
- void shift(sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition);
+ void shift(const sf::RenderWindow& window, sf::Vector2i oldPosition, sf::Vector2i newPosition);
 
  /**
   * @return Smallest x in visible canvas
   */
  float minX() const {
-  return intervalX.first / _scale;
+  return intervalX.first / scale;
  }
 
+ /**
+  * Stores definitions of all functions.
+  */
+ std::vector<std::string> functions;
+
 private:
- static constexpr size_t pointNumber = 1000;
  /**
   * Defines scale of plot.
   */
- float _scale = 1.f;
+ float scale = 1.f;
  /**
   * Step for increasing/decreasing scale
   */
- float _scalingStep = 0.1f;
+ float scalingStep = 0.1f;
  /**
   * Interval of visible y axis.
   */
@@ -81,17 +80,13 @@ private:
  /*
   * Vertical lines of coordinate system.
   */
- std::array<sf::RectangleShape, 13> _verticalLines;
+ std::array<sf::RectangleShape, 13> verticalLines;
  /**
   * Horizontal lines of coordinate system.
   */
- std::array<sf::RectangleShape, 11> _horizontalLines;
- /**
-  * Stores definitions of all functions.
-  */
- std::vector<std::string> functions;
+ std::array<sf::RectangleShape, 11> horizontalLines;
 
- const std::array<sf::Color, 7> _functionColors = {
+ const std::array<sf::Color, 7> functionColors = {
   sf::Color::Black,
   sf::Color::Blue,
   sf::Color::Magenta,
@@ -105,7 +100,7 @@ private:
   * Sets proper position of coordinate system (relatively to window size).
   * @param window Application window.
   */
- void set_lines(sf::RenderWindow& window);
+ void setLines(const sf::RenderWindow& window);
 
  /**
   * Draws vertical numbers on coordinate system.
@@ -114,7 +109,7 @@ private:
   * @param step Size of the space between lines.
   * @param y Height of the window.
   */
- void vertical_numbers(float x, float graphWidth, float step, float y) const;
+ void verticalNumbers(float x, float graphWidth, float step, float y) const;
 
  /**
   * Draws horizontal numbers on coordinate system.
@@ -122,13 +117,13 @@ private:
   * @param step Size of the space between lines.
   * @param y Height of the window.
   */
- void horizontal_numbers(float x, float step, float y) const;
+ void horizontalNumbers(float x, float step, float y) const;
 
  /**
   * Calculates positions of points to draw graph.
   * @return Vector of vertex arrays in type sf::TriangleStrip.
   */
- std::vector<sf::VertexArray> prepareGraphs(sf::RenderWindow const& window);
+ std::vector<sf::VertexArray> prepareGraphs(sf::RenderWindow const& window) const;
 };
 
 

@@ -53,7 +53,7 @@ void FunctionTools::functions_list() {
         //static int selected = -1;
         int n = 0;
         //list all function
-        for (std::string& buf: _coordinateSystem.all_functions()) {
+        for (std::string& buf: _coordinateSystem.functions) {
             if (ImGui::Selectable(buf.c_str(), _selected == n)) {
                 _selected = n;
             }
@@ -62,7 +62,7 @@ void FunctionTools::functions_list() {
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
         //delete selected function
         if (ImGui::Button("Delete")) {
-            _coordinateSystem.all_functions().erase(_coordinateSystem.all_functions().cbegin() + _selected);
+            _coordinateSystem.functions.erase(_coordinateSystem.functions.cbegin() + _selected);
         }
         ImGui::PopStyleVar();
         ImGui::TreePop();
@@ -87,15 +87,15 @@ void FunctionTools::show_canvas(sf::RenderWindow& window) {
 }
 
 void FunctionTools::show_scale(sf::RenderWindow& window) {
-    _coordinateSystem.show_scale(window);
+    _coordinateSystem.showScale(window);
 }
 
 void FunctionTools::show_numbers(sf::RenderWindow& window) const {
-    _coordinateSystem.show_numbers(window);
+    _coordinateSystem.showNumbers(window);
 }
 
 void FunctionTools::scroll_scale(const float delta) {
-    _coordinateSystem.scroll_scale(delta);
+    _coordinateSystem.scrollScale(delta);
 }
 
 void FunctionTools::more_about_function() {
@@ -104,7 +104,7 @@ void FunctionTools::more_about_function() {
     ImGui::InputScalar(" ", ImGuiDataType_Float, &_x, nullptr, nullptr, "%.2f");
 
     if (ImGui::Button("Calculate") && _selected != -1) {
-        std::string const& function = _coordinateSystem.all_functions()[_selected];
+        std::string const& function = _coordinateSystem.functions.at(_selected);
         auto const f = az::parse_expression(function);
         _f = static_cast<float>(f->evaluate(_x));
     }
@@ -118,7 +118,7 @@ void FunctionTools::more_about_function() {
 
 void FunctionTools::add_function() {
     if (az::parse_expression(_input)) {
-        _coordinateSystem.all_functions().emplace_back(_input);
+        _coordinateSystem.functions.emplace_back(_input);
         _errorMsg.clear();
     } else {
         _errorMsg = "Invalid expression!";
