@@ -103,6 +103,15 @@ private:
  void setLines(const sf::RenderWindow& window);
 
  /**
+  * Sets proper position of coordinate system (relatively to window size and scale).
+  * @param window Application window.
+  */
+ void setLines2(const sf::RenderWindow& window);
+
+ void setHorizontalLines(float canvasWidth, float canvasHeight);
+ void setVerticalLines(float canvasWidth, float canvasHeight);
+
+ /**
   * Draws vertical numbers on coordinate system.
   * @param x Width of the window.
   * @param graphWidth Width of the coordinate system.

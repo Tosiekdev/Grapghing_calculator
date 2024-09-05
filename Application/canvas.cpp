@@ -104,6 +104,36 @@ void Canvas::setLines(const sf::RenderWindow& window) {
     }
 }
 
+void Canvas::setLines2(const sf::RenderWindow& window) {
+    const float x = static_cast<float>(window.getSize().x);
+    const float y = static_cast<float>(window.getSize().y);
+
+    setHorizontalLines(x, y);
+    setVerticalLines(x, y);
+}
+
+void Canvas::setHorizontalLines(float canvasWidth, float canvasHeight) {
+    // three cases
+    if (intervalY.first * intervalY.second < 0) {
+        // zero inside
+    } else if (intervalY.first < 0) {
+        // zero on the right site
+    } else {
+        // zero on the left
+    }
+
+}
+void Canvas::setVerticalLines(float canvasWidth, float canvasHeight) {
+    // three cases
+    if (intervalX.first * intervalX.second < 0) {
+        // zero inside
+    } else if (intervalX.first < 0) {
+        // zero on the right site
+    } else {
+        // zero on the left
+    }
+}
+
 void Canvas::showScale(const sf::RenderWindow& window) {
     //windows size
     const float x = static_cast<float>(window.getSize().x);
