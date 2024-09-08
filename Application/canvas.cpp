@@ -6,6 +6,8 @@
 
 #include "imgui.h"
 
+#include <valarray>
+
 namespace {
     float mapToInterval(float x, const float intervalRatio, const float goalMin, const float currentMin) {
         x -= currentMin;
@@ -105,24 +107,44 @@ void Canvas::setLines(const sf::RenderWindow& window) {
 }
 
 void Canvas::setLines2(const sf::RenderWindow& window) {
-    const float x = static_cast<float>(window.getSize().x);
-    const float y = static_cast<float>(window.getSize().y);
+    float x = static_cast<float>(window.getSize().x);
+    float y = static_cast<float>(window.getSize().y);
+    x -= x / 3.f;
+    y -= y / 13.5f;
 
     setHorizontalLines(x, y);
     setVerticalLines(x, y);
 }
 
-void Canvas::setHorizontalLines(float canvasWidth, float canvasHeight) {
+void Canvas::setHorizontalLines(const float canvasWidth, const float canvasHeight) {
     // three cases
+    const auto verticalLineSize = sf::Vector2f(1, canvasHeight);
+    const auto verticalLineSizeBolded = sf::Vector2f(3, canvasHeight);
+
+    std::valarray defaultPositions{-6.f, -5.f, -4.f, -3.f, -2.f, -1.f, 0.f, 1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
+    const float shift = intervalX.second - 6.f;
+    defaultPositions += shift;
+    defaultPositions *= scale;
+
+    // scale default positions to canvas size
+    const float minDefaultPos = defaultPositions[0];
+    const float ratio = 12.f * scale / canvasWidth;
+
+    for (auto& i : defaultPositions) {
+        i = mapToInterval(i, ratio, canvasWidth / 2.f, minDefaultPos);
+    }
+
     if (intervalY.first * intervalY.second < 0) {
-        // zero inside
+        for (auto& i: verticalLines) {
+            i.setFillColor(sf::Color::Black);
+        }
     } else if (intervalY.first < 0) {
         // zero on the right site
     } else {
         // zero on the left
     }
-
 }
+
 void Canvas::setVerticalLines(float canvasWidth, float canvasHeight) {
     // three cases
     if (intervalX.first * intervalX.second < 0) {
