@@ -4,6 +4,8 @@
 
 #include "canvas.hpp"
 
+#include <iostream>
+
 #include "imgui.h"
 
 #include <valarray>
@@ -91,6 +93,7 @@ void Canvas::setLines(const sf::RenderWindow& window) {
         i.setFillColor(color);
         a++;
     }
+    // setVerticalLines(graphWidth, y - verticalLineY, verticalLineY);
 
     int b = 0;
     for (auto& j: horizontalLines) {
@@ -109,15 +112,26 @@ void Canvas::setLines(const sf::RenderWindow& window) {
 void Canvas::setLines2(const sf::RenderWindow& window) {
     float x = static_cast<float>(window.getSize().x);
     float y = static_cast<float>(window.getSize().y);
+    const float yStart = y / 13.5f;
     x -= x / 3.f;
-    y -= y / 13.5f;
+    y -= yStart;
 
     setHorizontalLines(x, y);
-    setVerticalLines(x, y);
+    setVerticalLines(x, y, yStart);
 }
 
 void Canvas::setHorizontalLines(const float canvasWidth, const float canvasHeight) {
     // three cases
+    if (intervalX.first * intervalX.second < 0) {
+        // zero inside
+    } else if (intervalX.first < 0) {
+        // zero on the right site
+    } else {
+        // zero on the left
+    }
+}
+
+void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight, const float yPos) {
     const auto verticalLineSize = sf::Vector2f(1, canvasHeight);
     const auto verticalLineSizeBolded = sf::Vector2f(3, canvasHeight);
 
@@ -134,25 +148,11 @@ void Canvas::setHorizontalLines(const float canvasWidth, const float canvasHeigh
         i = mapToInterval(i, ratio, canvasWidth / 2.f, minDefaultPos);
     }
 
-    if (intervalY.first * intervalY.second < 0) {
-        for (auto& i: verticalLines) {
-            i.setFillColor(sf::Color::Black);
-        }
-    } else if (intervalY.first < 0) {
-        // zero on the right site
-    } else {
-        // zero on the left
-    }
-}
-
-void Canvas::setVerticalLines(float canvasWidth, float canvasHeight) {
-    // three cases
-    if (intervalX.first * intervalX.second < 0) {
-        // zero inside
-    } else if (intervalX.first < 0) {
-        // zero on the right site
-    } else {
-        // zero on the left
+    for (size_t i = 0; i < defaultPositions.size(); ++i) {
+        auto& line = verticalLines[i];
+        line = sf::RectangleShape(verticalLineSize);
+        line.setPosition(defaultPositions[i], yPos);
+        line.setFillColor(sf::Color::Black);
     }
 }
 

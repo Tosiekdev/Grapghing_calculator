@@ -109,7 +109,7 @@ private:
  void setLines2(const sf::RenderWindow& window);
 
  void setHorizontalLines(float canvasWidth, float canvasHeight);
- void setVerticalLines(float canvasWidth, float canvasHeight);
+ void setVerticalLines(float canvasWidth, float canvasHeight, float yPos);
 
  /**
   * Draws vertical numbers on coordinate system.
