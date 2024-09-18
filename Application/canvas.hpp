@@ -84,7 +84,7 @@ private:
  /**
   * Horizontal lines of coordinate system.
   */
- std::array<sf::RectangleShape, 11> horizontalLines;
+ std::array<sf::RectangleShape, 13> horizontalLines;
 
  const std::array<sf::Color, 7> functionColors = {
   sf::Color::Black,
@@ -108,7 +108,7 @@ private:
   */
  void setLines2(const sf::RenderWindow& window);
 
- void setHorizontalLines(float canvasWidth, float canvasHeight);
+ void setHorizontalLines(float canvasWidth, float canvasZero, float xPos);
  void setVerticalLines(float canvasWidth, float canvasHeight, float yPos);
 
  /**

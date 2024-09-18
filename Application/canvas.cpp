@@ -107,6 +107,7 @@ void Canvas::setLines(const sf::RenderWindow& window) {
         j.setFillColor(color);
         b++;
     }
+    // setHorizontalLines(graphWidth, canvasZero(y, graphWidth, intervalY), horizontalLineX);
 }
 
 void Canvas::setLines2(const sf::RenderWindow& window) {
@@ -116,24 +117,38 @@ void Canvas::setLines2(const sf::RenderWindow& window) {
     x -= x / 3.f;
     y -= yStart;
 
-    setHorizontalLines(x, y);
+    setHorizontalLines(x, y, x / 2.f);
     setVerticalLines(x, y, yStart);
 }
 
-void Canvas::setHorizontalLines(const float canvasWidth, const float canvasHeight) {
-    // three cases
-    if (intervalX.first * intervalX.second < 0) {
-        // zero inside
-    } else if (intervalX.first < 0) {
-        // zero on the right site
-    } else {
-        // zero on the left
+void Canvas::setHorizontalLines(const float canvasWidth, const float canvasZero, const float xPos) {
+    const auto lineSize = sf::Vector2f(canvasWidth, 1);
+    const auto boldedLineSize = sf::Vector2f(canvasWidth, 3);
+
+    std::valarray defaultPositions{-6.f, -5.f, -4.f, -3.f, -2.f, -1.f, 0.f, 1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
+    const float shift = intervalX.second - 5.f;
+    defaultPositions += shift;
+    defaultPositions *= scale;
+
+    // scale default positions to canvas size
+    const float minDefaultPos = defaultPositions[6];
+    const float ratio = -12.f * scale / canvasWidth;
+
+    for (auto& i : defaultPositions) {
+        i = mapToInterval(i, ratio, canvasZero, minDefaultPos);
+    }
+
+    for (size_t i = 0; i < defaultPositions.size(); ++i) {
+        auto& line = horizontalLines[i];
+        line = sf::RectangleShape(lineSize);
+        line.setPosition(xPos, defaultPositions[i]);
+        line.setFillColor(sf::Color::Black);
     }
 }
 
 void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight, const float yPos) {
-    const auto verticalLineSize = sf::Vector2f(1, canvasHeight);
-    const auto verticalLineSizeBolded = sf::Vector2f(3, canvasHeight);
+    const auto lineSize = sf::Vector2f(1, canvasHeight);
+    const auto boldedLineSize = sf::Vector2f(3, canvasHeight);
 
     std::valarray defaultPositions{-6.f, -5.f, -4.f, -3.f, -2.f, -1.f, 0.f, 1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
     const float shift = intervalX.second - 6.f;
@@ -150,7 +165,7 @@ void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight,
 
     for (size_t i = 0; i < defaultPositions.size(); ++i) {
         auto& line = verticalLines[i];
-        line = sf::RectangleShape(verticalLineSize);
+        line = sf::RectangleShape(lineSize);
         line.setPosition(defaultPositions[i], yPos);
         line.setFillColor(sf::Color::Black);
     }
