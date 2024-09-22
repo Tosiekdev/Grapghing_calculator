@@ -81,33 +81,33 @@ void Canvas::setLines(const sf::RenderWindow& window) {
     const auto horizontalLineSize = sf::Vector2f(graphWidth, 1);
     const auto horizontalLineSizeBolded = sf::Vector2f(graphWidth, 3);
 
-    int a = 0;
-    for (auto& i: verticalLines) {
-        const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
-        sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
-        float posX = a == zero ? verticalStartX - 1 : verticalStartX;
-        sf::Color color = a == zero ? sf::Color::Black : sf::Color(150, 150, 150);
-        i = sf::RectangleShape(size);
-        i.setPosition(posX, verticalLineY);
-        verticalStartX += step;
-        i.setFillColor(color);
-        a++;
-    }
-    // setVerticalLines(graphWidth, y - verticalLineY, verticalLineY);
+    // int a = 0;
+    // for (auto& i: verticalLines) {
+    //     const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
+    //     sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
+    //     float posX = a == zero ? verticalStartX - 1 : verticalStartX;
+    //     sf::Color color = a == zero ? sf::Color::Black : sf::Color(150, 150, 150);
+    //     i = sf::RectangleShape(size);
+    //     i.setPosition(posX, verticalLineY);
+    //     verticalStartX += step;
+    //     i.setFillColor(color);
+    //     a++;
+    // }
+    setVerticalLines(graphWidth, y - verticalLineY, verticalLineY);
 
-    int b = 0;
-    for (auto& j: horizontalLines) {
-        const int zero = static_cast<int>(std::floor(intervalY.second));
-        sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
-        float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
-        sf::Color color = b == zero ? sf::Color::Black : sf::Color(150, 150, 150);
-        j = sf::RectangleShape(size);
-        j.setPosition(horizontalLineX, posY);
-        horizontalStartY += step;
-        j.setFillColor(color);
-        b++;
-    }
-    // setHorizontalLines(graphWidth, canvasZero(y, graphWidth, intervalY), horizontalLineX);
+    // int b = 0;
+    // for (auto& j: horizontalLines) {
+    //     const int zero = static_cast<int>(std::floor(intervalY.second));
+    //     sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
+    //     float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
+    //     sf::Color color = b == zero ? sf::Color::Black : sf::Color(150, 150, 150);
+    //     j = sf::RectangleShape(size);
+    //     j.setPosition(horizontalLineX, posY);
+    //     horizontalStartY += step;
+    //     j.setFillColor(color);
+    //     b++;
+    // }
+    setHorizontalLines(graphWidth, canvasZero(y, graphWidth, intervalY), horizontalLineX);
 }
 
 void Canvas::setLines2(const sf::RenderWindow& window) {
@@ -127,6 +127,12 @@ void Canvas::setHorizontalLines(const float canvasWidth, const float canvasZero,
 
     std::valarray defaultPositions{-6.f, -5.f, -4.f, -3.f, -2.f, -1.f, 0.f, 1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
     const float shift = intervalX.second - 5.f;
+    size_t xAxisIndex = defaultPositions.size();
+    for (size_t i = 0; i < defaultPositions.size(); ++i) {
+        if (defaultPositions[i] == 0.f) {
+            xAxisIndex = i;
+        }
+    }
     defaultPositions += shift;
     defaultPositions *= scale;
 
@@ -140,9 +146,15 @@ void Canvas::setHorizontalLines(const float canvasWidth, const float canvasZero,
 
     for (size_t i = 0; i < defaultPositions.size(); ++i) {
         auto& line = horizontalLines[i];
-        line = sf::RectangleShape(lineSize);
-        line.setPosition(xPos, defaultPositions[i]);
-        line.setFillColor(sf::Color::Black);
+        if (i == xAxisIndex) {
+            line = sf::RectangleShape(boldedLineSize);
+            line.setPosition(xPos, defaultPositions[i] - 1.f);
+            line.setFillColor(sf::Color::Black);
+        } else {
+            line = sf::RectangleShape(lineSize);
+            line.setPosition(xPos, defaultPositions[i]);
+            line.setFillColor(sf::Color(150, 150, 150));
+        }
     }
 }
 
@@ -152,6 +164,12 @@ void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight,
 
     std::valarray defaultPositions{-6.f, -5.f, -4.f, -3.f, -2.f, -1.f, 0.f, 1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
     const float shift = intervalX.second - 6.f;
+    size_t yAxisIndex = defaultPositions.size();
+    for (size_t i = 0; i < defaultPositions.size(); ++i) {
+        if (defaultPositions[i] == 0.f) {
+            yAxisIndex = i;
+        }
+    }
     defaultPositions += shift;
     defaultPositions *= scale;
 
@@ -165,9 +183,15 @@ void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight,
 
     for (size_t i = 0; i < defaultPositions.size(); ++i) {
         auto& line = verticalLines[i];
-        line = sf::RectangleShape(lineSize);
-        line.setPosition(defaultPositions[i], yPos);
-        line.setFillColor(sf::Color::Black);
+        if (i == yAxisIndex) {
+            line = sf::RectangleShape(boldedLineSize);
+            line.setPosition(defaultPositions[i] - 1.f, yPos);
+            line.setFillColor(sf::Color::Black);
+        } else {
+            line = sf::RectangleShape(lineSize);
+            line.setPosition(defaultPositions[i], yPos);
+            line.setFillColor(sf::Color(150, 150, 150));
+        }
     }
 }
 
