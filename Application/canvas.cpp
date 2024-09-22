@@ -81,33 +81,33 @@ void Canvas::setLines(const sf::RenderWindow& window) {
     const auto horizontalLineSize = sf::Vector2f(graphWidth, 1);
     const auto horizontalLineSizeBolded = sf::Vector2f(graphWidth, 3);
 
-    // int a = 0;
-    // for (auto& i: verticalLines) {
-    //     const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
-    //     sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
-    //     float posX = a == zero ? verticalStartX - 1 : verticalStartX;
-    //     sf::Color color = a == zero ? sf::Color::Black : sf::Color(150, 150, 150);
-    //     i = sf::RectangleShape(size);
-    //     i.setPosition(posX, verticalLineY);
-    //     verticalStartX += step;
-    //     i.setFillColor(color);
-    //     a++;
-    // }
-    setVerticalLines(graphWidth, y - verticalLineY, verticalLineY);
+    int a = 0;
+    for (auto& i: verticalLines) {
+        const int zero = static_cast<int>(std::ceil(-intervalX.first)) - 1;
+        sf::Vector2f size = a == zero ? verticalLineSizeBolded : verticalLineSize;
+        float posX = a == zero ? verticalStartX - 1 : verticalStartX;
+        sf::Color color = a == zero ? sf::Color::Black : sf::Color(150, 150, 150);
+        i = sf::RectangleShape(size);
+        i.setPosition(posX, verticalLineY);
+        verticalStartX += step;
+        i.setFillColor(color);
+        a++;
+    }
+    // setVerticalLines(graphWidth, y - verticalLineY, verticalLineY);
 
-    // int b = 0;
-    // for (auto& j: horizontalLines) {
-    //     const int zero = static_cast<int>(std::floor(intervalY.second));
-    //     sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
-    //     float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
-    //     sf::Color color = b == zero ? sf::Color::Black : sf::Color(150, 150, 150);
-    //     j = sf::RectangleShape(size);
-    //     j.setPosition(horizontalLineX, posY);
-    //     horizontalStartY += step;
-    //     j.setFillColor(color);
-    //     b++;
-    // }
-    setHorizontalLines(graphWidth, canvasZero(y, graphWidth, intervalY), horizontalLineX);
+    int b = 0;
+    for (auto& j: horizontalLines) {
+        const int zero = static_cast<int>(std::floor(intervalY.second));
+        sf::Vector2f size = b == zero ? horizontalLineSizeBolded : horizontalLineSize;
+        float posY = b == zero ? horizontalStartY - 1 : horizontalStartY;
+        sf::Color color = b == zero ? sf::Color::Black : sf::Color(150, 150, 150);
+        j = sf::RectangleShape(size);
+        j.setPosition(horizontalLineX, posY);
+        horizontalStartY += step;
+        j.setFillColor(color);
+        b++;
+    }
+    // setHorizontalLines(graphWidth, canvasZero(y, graphWidth, intervalY), horizontalLineX);
 }
 
 void Canvas::setLines2(const sf::RenderWindow& window) {
