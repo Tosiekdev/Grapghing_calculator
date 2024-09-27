@@ -138,7 +138,21 @@ void Canvas::setHorizontalLines(const float canvasWidth, const float canvasZero,
 
     // scale default positions to canvas size
     const float minDefaultPos = defaultPositions[6];
-    const float ratio = -12.f * scale / canvasWidth;
+
+    // We want to scale interval between 0.5 and 2 in order to don't have to big/small spaces between lines
+    float adjScale = scale;
+    float multiplier = 1.0f;
+    while (adjScale < 0.51f || adjScale > 1.99f) {
+        if (adjScale < 0.51f) {
+            adjScale *= 2.f;
+            multiplier /= 2.f;
+        } else {
+            adjScale /= 2.f;
+            multiplier *= 2.f;
+        }
+    }
+
+    const float ratio = -12.f * multiplier / canvasWidth;
 
     for (auto& i : defaultPositions) {
         i = mapToInterval(i, ratio, canvasZero, minDefaultPos);
@@ -175,7 +189,21 @@ void Canvas::setVerticalLines(const float canvasWidth, const float canvasHeight,
 
     // scale default positions to canvas size
     const float minDefaultPos = defaultPositions[0];
-    const float ratio = 12.f * scale / canvasWidth;
+
+    // We want to scale interval between 0.5 and 2 in order to don't have to big/small spaces between lines
+    float adjScale = scale;
+    float multiplier = 1.0f;
+    while (adjScale < 0.51f || adjScale > 1.99f) {
+        if (adjScale < 0.51f) {
+            adjScale *= 2.f;
+            multiplier /= 2.f;
+        } else {
+            adjScale /= 2.f;
+            multiplier *= 2.f;
+        }
+    }
+
+    const float ratio = 12.f * multiplier / canvasWidth;
 
     for (auto& i : defaultPositions) {
         i = mapToInterval(i, ratio, canvasWidth / 2.f, minDefaultPos);
